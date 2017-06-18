@@ -555,6 +555,20 @@ a:hover{
 .ext_items a:hover{
     background-color: #F0F2F5;
 }
+.friends-online:hover::after{
+    content: attr(data-title);
+    position: absolute;
+    border-radius: 4px;
+    width: 150px;
+    top: -27px;
+    right: 20px;
+    z-index: 4;
+    background: rgba(0,0,0,.7);
+    color: #FFFFFF;
+    font-size: 10pt;
+    padding: 3px 10px;
+    border: 1px solid #000;
+}
 
 
 
@@ -622,4 +636,14 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+
+/*press*/
+.press{
+    cursor: pointer;
+    border: 3px solid #6287AE;
+    border-radius: 5px;
+    background-color: #C1C9D0;
+    width: 35px;
 }

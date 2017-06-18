@@ -83,6 +83,7 @@ function timer(){
 
         setTimeout(function(){var s = document.getElementsByClassName("friends-online");
             s[0].style.display = "none";},1000);
+
     }
     else{setTimeout(timer,1000);
     }
@@ -132,7 +133,7 @@ class UserPanel extends React.Component{
     return(
         <div className="user_panel">
           <div>
-            <span className="us_name">User</span>
+            <span className="us_name">{this.props.name}</span>
             <img className="fanta_logo" src="img/Fanta.jpg" alt=""/>
             <img className="arrow" src="img/head_arrow.png" alt=""/>
           </div>
@@ -149,6 +150,7 @@ class UserPanel extends React.Component{
     );
   }
 }
+UserPanel.defaultProps = {name: "User"};
 class HeaderContent extends React.Component{
   render(){
     return(
@@ -270,12 +272,13 @@ class Stories extends React.Component{
             <p className="story">Истории</p>
             <img className="fanta_story" src="img/Fanta.jpg" alt=""/>
             <img className="fanta_story" src="img/Fanta.jpg" alt=""/><br/>
-            <span className="smb">Someone</span>
-            <span className="smb">Someone</span>
+            <span className="smb">{this.props.smname}</span>
+            <span className="smb">{this.props.smbname}</span>
           </div>
     );
   }
 }
+Stories.defaultProps = {smname: "Someone", smbname: "Someone"};
 class Feedback extends React.Component{
   render(){
     return(
@@ -291,22 +294,32 @@ class Feedback extends React.Component{
   }
 }
 class Post extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {post: "img/Magic_leaf.jpg"};
+        this.press = this.press.bind(this);
+    }
+    press(){
+        this.setState({post: "img/Pure_magic.jpg"});
+    }
   render(){
     return(
           <div className="post">
-            <img className="post_img" src="img/Magic_leaf.jpg" alt=""/>
+            <img className="post_img" src={this.state.post} alt=""/>
+              <div onClick={this.press} className="press">Press</div>
           </div>
     );
   }
 }
+Post.defaultProps = {post: "img/Magic_leaf.jpg"};
 class GroupMessage extends React.Component{
   render(){
     return(
           <div className="group_message">
             <img className="group_logo" src="img/group.png" alt=""/>
             <p className="author">
-              <b>Группа</b><br/>
-              <span className="publication_date">вчера в 12:02</span>
+              <b>{this.props.groupname}</b><br/>
+              <span className="publication_date">{this.props.date}</span>
             </p>
             <div className="drop_reply">
               <img className="point3" src="img/3point.png" alt=""/>
@@ -321,6 +334,7 @@ class GroupMessage extends React.Component{
     );
   }
 }
+GroupMessage.defaultProps = {groupname:"Группа", date: "вчера в 12:02"};
 class Posts extends React.Component{
   render(){
     return(
@@ -349,6 +363,17 @@ class Hot extends React.Component{
   }
 }
 class ActivityFeed extends React.Component{
+    // constructor(){
+    //     super();
+    //     this.press = this.press.bind(this);
+    // }
+    // press(num){
+    //     // var c = document.getElementsByClassName("recs");
+    //     //     c[this.props.num].style.borderLeftWidth = 2;
+    //     //     c[this.props.num].style.borderLeftColor = "#6285AF";
+    //     //     c[this.props.num].style.borderLeftStyle = "solid";
+    //
+    // }
   render(){
     return(
           <div className="activity_feed">
@@ -361,16 +386,17 @@ class ActivityFeed extends React.Component{
                 <li>Фотографии</li>
                 <li>Видеозаписи</li>
               </ul>
-              <li>Рекомендации</li>
-              <li>Поиск</li>
-              <li>Статьи</li>
+              <li >Рекомендации</li>
+              <li >Поиск</li>
+              <li >Статьи</li>
               <div className="list_split"></div>
-              <li>Обновления</li>
+              <li >Обновления</li>
               <li className="comments">Комментарии</li>
             </ul>
           </div>
     );
   }
+
 }
 class SubMenu extends React.Component{
   render(){
@@ -392,7 +418,7 @@ class SubMenu extends React.Component{
 class FriendsOnline extends React.Component{
   render(){
     return(
-          <div className="friends-online" >
+          <div className="friends-online" data-title="Показать друзей онлайн">
             <img className="friend_online" src="img/Fanta.jpg" alt="Friend"/>
             <img className="friend_online" src="img/Fanta.jpg" alt="Friend"/>
             <img className="friend_online" src="img/Fanta.jpg" alt="Friend"/>
