@@ -647,3 +647,6 @@ input:checked + .slider:before {
     background-color: #C1C9D0;
     width: 35px;
 }
+
+    /* "start": "react-scripts start",*/
+    /*"start": "lite-server",*/

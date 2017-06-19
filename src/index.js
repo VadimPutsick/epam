@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, browserHistory } from 'react-router';
 import './index.css';
 
 
@@ -466,8 +467,25 @@ class Page extends React.Component{
 //   <Game />,
 //   document.getElementById('root')
 // );
+class NF extends React.Component{
+    render(){
+        return(
+            <div className="page">
+              Not Found!
+          </div>  
+        );
+    }
+}
 
 ReactDOM.render(
-  <Page data-tip="Показать друзей онлайн"/>,
+  <Router history={browserHistory}>
+    <Route path="/" component={Page} />
+    <Route path="content" component={Content} />
+    <Route path="*" component={NF} />
+  </Router>,
   document.getElementById('root')
 );
+// ReactDOM.render(
+//   <Page data-tip="Показать друзей онлайн"/>,
+//   document.getElementById('root')
+// );
