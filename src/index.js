@@ -75,6 +75,29 @@ import './index.css';
 //     );
 //   }
 // }
+var friends_stories = [
+    {
+        name: "Someone",
+        avatar: "img/Fanta.jpg"
+    },
+    {
+        name: "Someone",
+        avatar: "img/Fanta.jpg"
+    }
+];
+var homies_online = [
+    {
+        avatar: "img/Fanta.jpg"
+    },
+    {
+        avatar: "img/Fanta.jpg"
+    },
+    {
+        avatar: "img/Fanta.jpg"
+    }
+];
+
+
 
 function timer(){
     const obj=document.getElementById('timer_inp');
@@ -119,11 +142,18 @@ class SearchBar extends React.Component{
   }
 }
 class NotificationsMusic extends React.Component{
+    constructor(props){
+        super(props);
+        this.overlay_on = this.overlay_on.bind(this);
+    }
+    overlay_on() {
+        document.getElementById('overlay').style.display = "block";
+    }
   render(){
     return(
         <div className="notifications_music">
           <img className="blue_bell" src="img/not_bell.png" alt=""/>
-          <img className="blue_note" src="img/blue_note.png" alt=""/>
+          <img className="blue_note" onClick={this.overlay_on} src="img/blue_note.png" alt=""/>
         </div>
   );
 }
@@ -187,6 +217,13 @@ class Support extends React.Component{
   }
 }
 class Menu extends React.Component{
+    constructor(props){
+        super(props);
+        this.overlay_on = this.overlay_on.bind(this);
+    }
+    overlay_on() {
+        document.getElementById('overl').style.display = "block";
+    }
   render(){
     return(
       <div className="menu">
@@ -223,7 +260,7 @@ class Menu extends React.Component{
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
           <img className="menu_img" src="img/musique.png" alt=""/>
-          <span className="item_name">Музыка</span>
+          <span className="item_name" onClick={this.overlay_on}>Музыка</span>
         </div>
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
@@ -267,26 +304,45 @@ class WhatsNew extends React.Component{
 }
 class Stories extends React.Component{
   render(){
+    var data = this.props.data;
+    var storiesTemplate = data.map(function(item, index)
+    {
+        return (
+            <div key={index} className="story_block">
+                <img className="fanta_story" src={item.avatar} alt=""/><br />
+                <span className="smb">{item.name}</span>
+            </div>
+        )
+    })
     return(
           <div className="stories">
             <p className="story">Истории</p>
-            <img className="fanta_story" src="img/Fanta.jpg" alt=""/>
-            <img className="fanta_story" src="img/Fanta.jpg" alt=""/><br/>
-            <span className="smb">{this.props.smname}</span>
-            <span className="smb">{this.props.smbname}</span>
+              {storiesTemplate}
           </div>
     );
   }
 }
-Stories.defaultProps = {smname: "Someone", smbname: "Someone"};
+// Stories.defaultProps = {smname: "Someone", smbname: "Someone"};
 class Feedback extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {likes: 3120, repost: 420};
+        this.like = this.like.bind(this);
+        this.repost = this.repost.bind(this);
+    }
+    like(){
+        this.setState({likes: this.state.likes + 1});
+    }
+    repost(){
+        this.setState({repost: this.state.repost + 1});
+    }
   render(){
     return(
           <div className="feedback">
-            <img className="like_img" src="img/like.png" alt=""/>
-            <span className="feed_info">Нравится 3 120</span>
-            <img className="like_img" src="img/repost.png" alt=""/>
-            <span className="feed_info">420</span>
+            <img className="like_img" onClick={this.like} src="img/like.png" alt=""/>
+            <span className="feed_info">Нравится {this.state.likes}</span>
+            <img className="like_img" onClick={this.repost} src="img/repost.png" alt=""/>
+            <span className="feed_info">{this.state.repost}</span>
             <span className="view_info">89K</span>
             <img className="view_img" src="img/view.png" alt=""/>
           </div>
@@ -305,8 +361,7 @@ class Post extends React.Component{
   render(){
     return(
           <div className="post">
-            <img className="post_img" src={this.state.post} alt=""/>
-              <div onClick={this.press} className="press">Press</div>
+            <img className="post_img" onClick={this.press} src={this.state.post} alt=""/>
           </div>
     );
   }
@@ -340,7 +395,7 @@ class Posts extends React.Component{
     return(
           <div className="posts">
             <WhatsNew />
-            <Stories />
+            <Stories data={friends_stories}/>
             <GroupMessage />
           </div>
     );
@@ -417,11 +472,18 @@ class SubMenu extends React.Component{
 // }
 class FriendsOnline extends React.Component{
   render(){
+      var data = this.props.data;
+      var friendsTemplate = data.map(function(item, index)
+      {
+          return (
+              <div key={index} class="img_block">
+                  <img className="friend_online" src={item.avatar} alt="Friend"/>
+              </div>
+          )
+      })
     return(
           <div className="friends-online" data-title="Показать друзей онлайн">
-            <img className="friend_online" src="img/Fanta.jpg" alt="Friend"/>
-            <img className="friend_online" src="img/Fanta.jpg" alt="Friend"/>
-            <img className="friend_online" src="img/Fanta.jpg" alt="Friend"/>
+              {friendsTemplate}
             <div className="counter_result">
             <span className="amount" id="timer_inp">
               40
@@ -439,22 +501,74 @@ class Content extends React.Component{
             <Menu />
             <Posts />
             <SubMenu />
-            <FriendsOnline />
+            <FriendsOnline data={homies_online}/>
           </div>
     );
   }
 }
-class Page extends React.Component{
+class Overlay extends React.Component{
+    constructor(props){
+        super(props);
+        this.overlay_off = this.overlay_off.bind(this);
+    }
+    overlay_off() {
+        document.getElementById('overlay').style.display = "none";
+    }
     render(){
         return(
-            <div className="page">
+            <div id="overlay" onClick={this.overlay_off}>
+                <div className="overlay_text">
+                    <div className="ov_text">Музыка ВКонтакте</div>
+                    <iframe id="iframe" frameborder="0" src={this.props.playlist}>
+                        Слушайте
+                        <a href='https://music.yandex.ru/users/music-blog/playlists/1175'>
+                            Громкие новинки месяца
+                        </a> — <a href='https://music.yandex.ru/users/music-blog'>
+                        Вконтакте</a> на Яндекс.Музыке
+                    </iframe>
+                </div>
+            </div>
+        );
+    }
+}
+Overlay.defaultProps = {playlist: "https://music.yandex.ru/iframe/#playlist/music-blog/1175/show/cover/description/black/"};
+class OverlayNew extends React.Component{
+    constructor(props){
+        super(props);
+        this.overlay_off = this.overlay_off.bind(this);
+    }
+    overlay_off() {
+        document.getElementById('overl').style.display = "none";
+    }
+    render(){
+        return(
+            <div id="overl" onClick={this.overlay_off}>
+                <div className="overlay_text">
+                    <div className="o_text">ВКонтакте</div>
+                    <iframe id="iframe" width="100%" height="450" scrolling="no" frameborder="no" src={this.props.playlist}>
+                    </iframe>
+                </div>
+            </div>
+        );
+    }
+}
+OverlayNew.defaultProps = {playlist: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/293221837&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"};
+class Page extends React.Component{
+
+    render(){
+        return(
+            <div className="page" >
               <HeaderContent />
               <Content />
-              <FriendsOnline />
+                <Overlay />
+                <OverlayNew />
+              <FriendsOnline data={homies_online}/>
           </div>  
         );
     }
 }
+
+
 // ========================================
 
 // ReactDOM.render(
