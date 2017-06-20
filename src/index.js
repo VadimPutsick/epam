@@ -83,7 +83,35 @@ var friends_stories = [
     {
         name: "Someone",
         avatar: "img/Fanta.jpg"
-    }
+    },
+    // {
+    //     name: "Someone",
+    //     avatar: "img/Magic_leaf.jpg"
+    // },
+    // {
+    //     name: "Someone",
+    //     avatar: "img/Fanta.jpg"
+    // },
+    // {
+    //     name: "Someone",
+    //     avatar: "img/Fanta.jpg"
+    // },
+    // {
+    //     name: "Someone",
+    //     avatar: "img/Magic_leaf.jpg"
+    // },
+    // {
+    //     name: "Someone",
+    //     avatar: "img/Fanta.jpg"
+    // },
+    // {
+    //     name: "Someone",
+    //     avatar: "img/Fanta.jpg"
+    // },
+    // {
+    //     name: "Someone",
+    //     avatar: "img/Magic_leaf.jpg"
+    // },
 ];
 var homies_online = [
     {
@@ -96,6 +124,25 @@ var homies_online = [
         avatar: "img/Fanta.jpg"
     }
 ];
+var notify = [
+    {
+        logo: "img/Fanta.jpg",
+        date: "20 июня 13:54",
+        author: "Someone",
+        text: " приглашает вступить Вас в сообщество",
+        group: " Любители Фанта",
+        button: ""
+    },
+    // {
+    //     logo: "img/Fanta.jpg",
+    //     date: "20 июня 13:54",
+    //     author: "Someone",
+    //     text: " приглашает вступить Вас в сообщество",
+    //     group: " Любители Фанта",
+    //     button: "none"
+    // },
+];
+
 
 
 
@@ -151,7 +198,16 @@ class NotificationsMusic extends React.Component{
         document.getElementById('overlay').style.display = "block";
     }
     notif_on() {
-        document.getElementById('notifications').style.display = "flex";
+        var c = document.getElementById('notifications');
+        var d = document.getElementsByClassName("blue_bell");
+        if(c.style.display == "flex"){
+            c.style.display = "none";
+            d[0].style.backgroundColor = "";
+        }
+        else{
+            c.style.display = "flex";
+            d[0].style.backgroundColor = "#3d6a9c";
+        }
     }
   render(){
     return(
@@ -164,12 +220,26 @@ class NotificationsMusic extends React.Component{
 }
 class Notification extends React.Component{
   render(){
+      var data = this.props.data;
+      var notificationTemplate = data.map(function(item, index)
+      {
+          return (
+              <div key={index} className="notification">
+                  <img className="logo_n" src={item.logo} alt=""/>
+                  <p className="info"><a href="">{item.author}</a>{item.text}
+                      <a href="">{item.group}</a></p>
+                  <p className="notif_date">{item.date}</p>
+                  <div className="yes" style={{display:item.button}}>Присоединиться</div>
+                  <div className="no" style={{display:item.button}}>Отклонить</div>
+              </div>
+
+          )
+      })
     return(
-        <div className="notification">
-          <img className="logo_n" src="img/Fanta.jpg" alt=""/>
-          <p className="info">Someone приглашает вступить Вас в сообщество 
-          <a href=""> Любители Фанта</a></p>
-        </div>      
+        <div>
+        {notificationTemplate}
+
+        </div>
     );
   }
 }
@@ -182,7 +252,7 @@ class Notifications extends React.Component{
           <a href="" id="notif">Уведомления</a>
           <a href="" id="settings">Настройки</a>
         </div>
-        <Notification />
+        <Notification data={notify}/>
         <div className="show_more">
           <a id="more" href="">Показать все</a>
         </div>
@@ -534,6 +604,7 @@ class Content extends React.Component{
     }
     notif_off() {
         document.getElementById('notifications').style.display = "none";
+        document.getElementsByClassName("blue_bell")[0].style.backgroundColor = "";
     }
   render(){
     return(
