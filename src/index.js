@@ -145,18 +145,50 @@ class NotificationsMusic extends React.Component{
     constructor(props){
         super(props);
         this.overlay_on = this.overlay_on.bind(this);
+        this.notif_on = this.notif_on.bind(this);
     }
     overlay_on() {
         document.getElementById('overlay').style.display = "block";
     }
+    notif_on() {
+        document.getElementById('notifications').style.display = "flex";
+    }
   render(){
     return(
         <div className="notifications_music">
-          <img className="blue_bell" src="img/not_bell.png" alt=""/>
+          <img className="blue_bell" onClick={this.notif_on} src="img/not_bell.png" alt=""/>
           <img className="blue_note" onClick={this.overlay_on} src="img/blue_note.png" alt=""/>
         </div>
   );
 }
+}
+class Notification extends React.Component{
+  render(){
+    return(
+        <div className="notification">
+          <img className="logo_n" src="img/Fanta.jpg" alt=""/>
+          <p className="info">Someone приглашает вступить Вас в сообщество 
+          <a href=""> Любители Фанта</a></p>
+        </div>      
+    );
+  }
+}
+
+class Notifications extends React.Component{
+  render(){
+    return(
+      <div id="notifications">
+        <div className="notif_header">
+          <a href="" id="notif">Уведомления</a>
+          <a href="" id="settings">Настройки</a>
+        </div>
+        <Notification />
+        <div className="show_more">
+          <a id="more" href="">Показать все</a>
+        </div>
+      </div>
+    );
+  }
 }
 class UserPanel extends React.Component{
   render(){
@@ -189,6 +221,7 @@ class HeaderContent extends React.Component{
               <Logo />
               <SearchBar />
               <NotificationsMusic />
+              <Notifications />
               <UserPanel />
             </div>
           </div>
@@ -495,9 +528,16 @@ class FriendsOnline extends React.Component{
   }
 }
 class Content extends React.Component{
+  constructor(props){
+      super(props);
+      this.notif_off = this.notif_off.bind(this);
+    }
+    notif_off() {
+        document.getElementById('notifications').style.display = "none";
+    }
   render(){
     return(
-          <div className="content">
+          <div className="content" onClick={this.notif_off}>
             <Menu />
             <Posts />
             <SubMenu />
@@ -554,10 +594,9 @@ class OverlayNew extends React.Component{
 }
 OverlayNew.defaultProps = {playlist: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/293221837&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"};
 class Page extends React.Component{
-
     render(){
         return(
-            <div className="page" >
+            <div className="page">
               <HeaderContent />
               <Content />
                 <Overlay />
