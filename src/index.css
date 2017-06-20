@@ -62,7 +62,7 @@ body {
     padding-left: 10px;
 }*/
 
-img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel{
+img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel, .yes, .no{
     cursor: pointer;
 }
 /*friends online*/
@@ -371,7 +371,7 @@ a:hover{
 	width: 550px;
 	float: left;
 }
-.whats_new, .stories, .group_message{
+.whats_new, .stories, .group_message, #notifications{
 	background-color: #FFFFFF;
 	border-radius: 3px;
 	border: 3px solid #E8EAED;
@@ -400,7 +400,7 @@ a:hover{
 	padding-right: 10px;
 }
 .stories{
-	height: 130px;
+	padding-bottom: 15px;
 }
 .fanta_story{
 	width: 42px;
@@ -417,9 +417,9 @@ a:hover{
 .smb{
 	color: #2A58A2;
 	font-size: 8pt;
-	padding-left: 17px;
-	text-align: center;
-	vertical-align: top;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .group_logo{
 	border-radius: 50%;
@@ -718,12 +718,13 @@ input:checked + .slider:before {
     left: 410px;
     top: 42px;
     width: 470px;
-    background-color: #FFFFFF;
     z-index: 3;
     border-radius: 4px;
+    box-shadow: 0 0 55px rgba(0,0,0,0.5);
 }
 .notif_header{
     height: 35px;
+    border-bottom: 2px solid #E7E8EC;
 }
 .notif_header a{
     text-decoration: none;
@@ -732,14 +733,17 @@ input:checked + .slider:before {
     background-color: #FFFFFF;
     color: #000000;
     font-size: 10pt;
-    border-top: 2px solid #E7E8EC;
     border-bottom: 2px solid #E7E8EC;
+    padding-bottom: 14px;
+    padding-top: 3px;
 }
 .notification:hover{
     background-color: #FAFBFC;
 }
 .notification a{
     color: #285473;
+    display: inline;
+    margin-right: 0;
 }
 #notif, #settings{
     display: inline-block;
@@ -770,10 +774,16 @@ input:checked + .slider:before {
 .show_more:hover{
     background-color: #E6E8EA;
 }
-
+.show_more:hover a:hover{
+    text-decoration: none;
+}
+.show_more a{
+    color: #2A6AA5;
+    font-size: 9pt;
+}
 .info{
     display: inline-block;
-    width: 65%;
+    width: 68%;
     margin-top: 10px;
 }
 .logo_n{
@@ -781,4 +791,31 @@ input:checked + .slider:before {
 	width: 50px;
 	border-radius: 50%;
     float: left;
+}
+.notif_date{
+    color: #9F9CB7;
+    font-size: 9pt;
+    margin-top: 3px;
+}
+.yes{
+    color: #FFFFFF;
+    background-color: #5E81A8;
+    border: 2px solid #5E81A8;
+    width: 100px;
+    margin-left: 70px;
+}
+.no{
+    background-color: #E5EBF1;
+    border: 2px solid #E5EBF1;
+    color: #55677D;
+    width: 63px;
+    margin-left: 8px;
+}
+.yes, .no{
+    display: inline-block;
+    border-radius: 3px;
+    z-index: 4;
+    padding: 3px 7px 4px 8px;
+    font-size: 9pt;
+    margin-top: 10px;
 }
