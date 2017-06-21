@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
+import './css/what_new.css';
 
 // class Square extends React.Component {
 //   render() {
@@ -391,16 +391,103 @@ class Menu extends React.Component{
     );
   }
 }
+class WhatsNew_ADD extends React.Component{
+
+   render(){
+    return(
+      <div className="WhatsNew_ADD">
+
+           <div className="WhatsNew_input">
+                      <div>
+                        <img className="fanta_logo_new" src="img/Fanta.jpg" alt=""/>   
+                      </div>       
+                      <div className="what_input">
+                        <textarea  id="text_area" className="message"  >Что у Вас нового?</textarea>
+                      </div>
+                      <div >            
+                        <img className="what_img"  src="img/smile.png" alt=""/>                       
+                      </div>
+            </div>
+            <div className="WhatsNew_submit">
+            
+                  <div >  
+                             
+                            <img className="what_img_add" src="img/musique.png" alt=""/>
+                            
+                            <img className="what_img_add" src="img/movies.png" alt=""/>
+                            <img className="what_img_add" src="img/photo.png" alt=""/>  
+                                   
+                            <span className="add_element"> Ещё  </span>
+                           
+                  </div>
+                  <div>
+                   <img className="what_img_add"  src="img/unlock.png" alt=""/>
+                
+                  <div className="WhatNew_submit">
+                    Отправить             
+                  </div> 
+                  </div>
+             </div>
+      </div>
+
+    );
+  }
+}
+class WhatsNew_Prime extends React.Component{
+
+   render(){
+    return(
+         <div>
+                      <div>
+                        <img className="fanta_logo_new" src="img/Fanta.jpg" alt=""/>   
+                      </div>       
+                      <div className="what_input">
+                        Что у Вас нового?
+                      </div>
+                      <div className="what_img_group" >            
+                        <img className="what_img" src="img/musique.png" alt=""/>
+                        <img className="what_img" src="img/movies.png" alt=""/>
+                        <img className="what_img" src="img/photo.png" alt=""/>
+                      </div>
+          </div>
+
+
+    );
+  }
+}
+
+
 class WhatsNew extends React.Component{
+
+  constructor(){
+     super();
+ 
+    
+    this.state = {start:<WhatsNew_Prime/>}
+    this.add = this.add.bind(this);
+    this.over = this.over.bind(this);
+
+
+  };
+  add()
+  {
+     
+          this.setState({start:<WhatsNew_ADD/>})
+         
+        
+  };
+  over()
+  {
+          
+     
+          this.setState({start:<WhatsNew_Prime/>}) ;
+        
+  };
+  
   render(){
     return(
-          <div className="whats_new">
-            <img className="fanta_logo_new" src="img/Fanta.jpg" alt=""/>
-            <label for="what_input"></label><input
-              className="what_input" type="text" size="60" value="Что у Вас нового?"/>
-            <img className="what_img" id="mus_img" src="img/musique.png" alt=""/>
-            <img className="what_img" src="img/movies.png" alt=""/>
-            <img className="what_img" src="img/photo.png" alt=""/>
+          <div className="whats_new" onClick={this.add} onBlur={this.over}>            
+          {this.state.start}           
           </div>
     );
   }
