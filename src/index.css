@@ -126,43 +126,6 @@ img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel, .yes, .
     left: 1100px;
     /*margin: auto;*/
 }
-
-ul{
-    list-style: none;
-}
-li{
-    padding: 7px 5px 7px 20px;
-    font-size: 10pt;
-}
-.sub_news li{
-    padding-left:30px;
-    color: #939393;
-}
-.act_list{
-    margin-top: 5px;
-    color: #2a5885;
-}
-li:hover, #news{
-    background-color: #F0F2F5;
-}
-.news{
-    border-left: 2px solid #6285AF;
-    font-weight: bold;
-    color: #000;
-}
-.list_split{
-    margin: 5px 15px 5px 15px;
-    border-top: 2px solid #E7E8EC;
-}
-.comments{
-    margin-bottom: 5px;
-}
-.sort{
-    width: 14px;
-    height: 15px;
-    float: right;
-    margin: 3px 5px 0 5px;
-}
 .hot_img{
     padding: 12px;
     display: inline-block;
@@ -229,11 +192,11 @@ li:hover, #news{
 	width: 100px;
 }
 .blue_bell{
-	height: 30px;
+	height: 31px;
 	padding-top: 5px;
 }
 .blue_note{
-	height: 30px;
+	height: 31px;
 	padding-bottom: 5px;
 }
 .blue_bell:hover, .blue_note:hover, .user_panel:hover div{
@@ -449,8 +412,17 @@ a:hover{
 	padding-bottom: 15px;
 	border-bottom: 2px solid #DFE2E8;
 }
+.posts_text{
+    font-size: 10pt;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
 .post_img{
 	width: 480px;
+}
+#posts{
+    display: flex;
+    flex-direction: column-reverse;
 }
 .like_img, .view_img{
 	width: 20px;
@@ -654,7 +626,7 @@ input:checked + .slider:before {
         width: 35px;
     }*/
 
-
+/*player*/
 #overlay, #overl {
     position: fixed;
     display: none;
@@ -819,3 +791,51 @@ input:checked + .slider:before {
     font-size: 9pt;
     margin-top: 10px;
 }
+/*activity feed*/
+
+ul{
+    list-style: none;
+}
+li{
+    padding: 7px 5px 7px 20px;
+    font-size: 10pt;
+}
+.sub_news li{
+    padding-left:30px;
+    color: #939393;
+}
+.act_list{
+    margin-top: 5px;
+    color: #2a5885;
+}
+li:hover, .news, #blue_line_block{
+    background-color: #F0F2F5;
+}
+.news{
+    border-left: 2px solid #6285AF;
+    font-weight: bold;
+    color: #000;
+}
+.list_split{
+    margin: 5px 15px 5px 15px;
+    border-top: 2px solid #E7E8EC;
+}
+#comments{
+    margin-bottom: 5px;
+}
+.sort{
+    width: 14px;
+    height: 15px;
+    float: right;
+    margin: 3px 5px 0 5px;
+}
+/*#blue_line_block{*/
+    /*border-left: 2px solid #6285AF;*/
+    /*display: inline-block;*/
+    /*float: left;*/
+    /*width: 20px;*/
+    /*height: 18px;*/
+    /*padding-bottom: 7px;*/
+    /*padding-top: 7px;*/
+
+/*}*/

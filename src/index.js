@@ -142,6 +142,28 @@ var notify = [
     //     button: "none"
     // },
 ];
+var posts = [
+    {
+        logo: "img/group.png",
+        date: "вчера в 12:02",
+        groupname: "Группа",
+        text: "",
+        img: "img/Magic_leaf.jpg",
+        likes: 3120,
+        reposts: 420,
+        views: "89K"
+    },
+    // {
+    //     logo: "img/Magic_leaf.jpg",
+    //     date: "сегодня в 18:07",
+    //     groupname: "Группа группа",
+    //     text: "Всем почитателям Игоря",
+    //     img: "img/Pure_Magic.jpg",
+    //     likes: 420,
+    //     reposts: 42,
+    //     views: "9K"
+    // },
+];
 
 
 
@@ -198,8 +220,8 @@ class NotificationsMusic extends React.Component{
         document.getElementById('overlay').style.display = "block";
     }
     notif_on() {
-        var c = document.getElementById('notifications');
-        var d = document.getElementsByClassName("blue_bell");
+        let c = document.getElementById('notifications');
+        let d = document.getElementsByClassName("blue_bell");
         if(c.style.display == "flex"){
             c.style.display = "none";
             d[0].style.backgroundColor = "";
@@ -429,7 +451,7 @@ class Stories extends React.Component{
 class Feedback extends React.Component{
     constructor(props){
         super(props);
-        this.state = {likes: 3120, repost: 420};
+        this.state = {likes: this.props.likes, repost: this.props.reposts};
         this.like = this.like.bind(this);
         this.repost = this.repost.bind(this);
     }
@@ -446,7 +468,7 @@ class Feedback extends React.Component{
             <span className="feed_info">Нравится {this.state.likes}</span>
             <img className="like_img" onClick={this.repost} src="img/repost.png" alt=""/>
             <span className="feed_info">{this.state.repost}</span>
-            <span className="view_info">89K</span>
+            <span className="view_info">{this.props.views}</span>
             <img className="view_img" src="img/view.png" alt=""/>
           </div>
     );
@@ -455,7 +477,7 @@ class Feedback extends React.Component{
 class Post extends React.Component{
     constructor(props){
         super(props);
-        this.state = {post: "img/Magic_leaf.jpg"};
+        this.state = {post: this.props.data};
         this.press = this.press.bind(this);
     }
     press(){
@@ -464,42 +486,50 @@ class Post extends React.Component{
   render(){
     return(
           <div className="post">
+              <div className="posts_text">{this.props.text}</div>
             <img className="post_img" onClick={this.press} src={this.state.post} alt=""/>
           </div>
     );
   }
 }
-Post.defaultProps = {post: "img/Magic_leaf.jpg"};
+// Post.defaultProps = {post: "img/Magic_leaf.jpg"};
 class GroupMessage extends React.Component{
   render(){
-    return(
-          <div className="group_message">
-            <img className="group_logo" src="img/group.png" alt=""/>
-            <p className="author">
-              <b>{this.props.groupname}</b><br/>
-              <span className="publication_date">{this.props.date}</span>
-            </p>
-            <div className="drop_reply">
-              <img className="point3" src="img/3point.png" alt=""/>
-              <div className="drop_content">
-                <a href="">Это не интересно</a>
-                <a href="">Пожаловаться</a>
+      var data = this.props.data;
+      var postTemplate = data.map(function(item, index)
+      {
+          return (
+              <div key={index} className="group_message">
+                  <img className="group_logo" src={item.logo} alt=""/>
+                  <p className="author">
+                      <b>{item.groupname}</b><br/>
+                      <span className="publication_date">{item.date}</span>
+                  </p>
+                  <div className="drop_reply">
+                      <img className="point3" src="img/3point.png" alt=""/>
+                      <div className="drop_content">
+                          <a href="">Это не интересно</a>
+                          <a href="">Пожаловаться</a>
+                      </div>
+                  </div>
+                  <Post data={item.img} text={item.text}/>
+                  <Feedback likes={item.likes} reposts={item.reposts} views={item.views} />
               </div>
-            </div>
-            <Post />
-            <Feedback />
-          </div>
+          )
+      })
+    return(
+        <div id="posts">{postTemplate}</div>
     );
   }
 }
-GroupMessage.defaultProps = {groupname:"Группа", date: "вчера в 12:02"};
+// GroupMessage.defaultProps = {groupname:"Группа", date: "вчера в 12:02"};
 class Posts extends React.Component{
   render(){
     return(
           <div className="posts">
             <WhatsNew />
             <Stories data={friends_stories}/>
-            <GroupMessage />
+            <GroupMessage data={posts} />
           </div>
     );
   }
@@ -521,35 +551,274 @@ class Hot extends React.Component{
   }
 }
 class ActivityFeed extends React.Component{
-    // constructor(){
-    //     super();
-    //     this.press = this.press.bind(this);
-    // }
-    // press(num){
-    //     // var c = document.getElementsByClassName("recs");
-    //     //     c[this.props.num].style.borderLeftWidth = 2;
-    //     //     c[this.props.num].style.borderLeftColor = "#6285AF";
-    //     //     c[this.props.num].style.borderLeftStyle = "solid";
-    //
-    // }
+    constructor(){
+        super();
+        this.recs = this.recs.bind(this);
+        this.search = this.search.bind(this);
+        this.publications = this.publications.bind(this);
+        this.updates = this.updates.bind(this);
+        this.comments = this.comments.bind(this);
+        this.news = this.news.bind(this);
+    }
+    news(){
+        document.getElementsByClassName("sub_news")[0].style.display = "";
+        document.getElementsByClassName("news")[0].style.borderLeft = "";
+        document.getElementsByClassName("news")[0].style.color = "";
+        document.getElementsByClassName("news")[0].style.fontWeight = "";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "";
+        document.getElementsByClassName("sort")[0].style.display = "";
+        document.getElementsByClassName("sort")[1].style.display = "";
+        document.getElementsByClassName("hot")[0].style.display = "";
+        document.getElementById("photo").style.borderLeft = "none";
+        document.getElementById("photo").style.backgroundColor = "";
+        document.getElementById("photo").style.color = "";
+        document.getElementById("photo").style.fontWeight = "";
+        document.getElementById("video").style.borderLeft = "none";
+        document.getElementById("video").style.backgroundColor = "";
+        document.getElementById("video").style.color = "";
+        document.getElementById("video").style.fontWeight = "";
+        document.getElementById("recs").style.borderLeft = "none";
+        document.getElementById("recs").style.backgroundColor = "";
+        document.getElementById("recs").style.color = "";
+        document.getElementById("recs").style.fontWeight = "";
+        document.getElementById("publications").style.borderLeft = "none";
+        document.getElementById("publications").style.backgroundColor = "";
+        document.getElementById("publications").style.color = "";
+        document.getElementById("publications").style.fontWeight = "";
+        document.getElementById("search").style.borderLeft = "none";
+        document.getElementById("search").style.backgroundColor = "";
+        document.getElementById("search").style.color = "";
+        document.getElementById("search").style.fontWeight = "";
+        document.getElementById("updates").style.borderLeft = "none";
+        document.getElementById("updates").style.backgroundColor = "";
+        document.getElementById("updates").style.color = "";
+        document.getElementById("updates").style.fontWeight = "";
+        document.getElementById("comments").style.borderLeft = "none";
+        document.getElementById("comments").style.backgroundColor = "";
+        document.getElementById("comments").style.color = "";
+        document.getElementById("comments").style.fontWeight = "";
+    }
+    photo(){
+        document.getElementsByClassName("news")[0].style.borderLeft = "none";
+        document.getElementsByClassName("news")[0].style.color = "#2a5885";
+        document.getElementsByClassName("news")[0].style.fontWeight = "500";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "#FFFFFF";
+        document.getElementById("photo").style.borderLeftWidth = "2px";
+        document.getElementById("photo").style.borderLeftColor = "#6285AF";
+        document.getElementById("photo").style.borderLeftStyle = "solid";
+        document.getElementById("photo").style.backgroundColor = "#F0F2F5";
+        document.getElementById("photo").style.color = "#000000";
+        document.getElementById("photo").style.fontWeight = "600";
+        document.getElementById("video").style.borderLeft = "none";
+        document.getElementById("video").style.backgroundColor = "";
+        document.getElementById("video").style.color = "";
+        document.getElementById("video").style.fontWeight = "";
+        document.getElementsByClassName("hot")[0].style.display = "none";
+    }
+    video(){
+        document.getElementsByClassName("news")[0].style.borderLeft = "none";
+        document.getElementsByClassName("news")[0].style.color = "#2a5885";
+        document.getElementsByClassName("news")[0].style.fontWeight = "500";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "#FFFFFF";
+        document.getElementById("video").style.borderLeftWidth = "2px";
+        document.getElementById("video").style.borderLeftColor = "#6285AF";
+        document.getElementById("video").style.borderLeftStyle = "solid";
+        document.getElementById("video").style.backgroundColor = "#F0F2F5";
+        document.getElementById("video").style.color = "#000000";
+        document.getElementById("video").style.fontWeight = "600";
+        document.getElementById("photo").style.borderLeft = "none";
+        document.getElementById("photo").style.backgroundColor = "";
+        document.getElementById("photo").style.color = "";
+        document.getElementById("photo").style.fontWeight = "";
+        document.getElementsByClassName("hot")[0].style.display = "none";
+    }
+    recs(){
+        document.getElementById("recs").style.borderLeftWidth = "2px";
+        document.getElementById("recs").style.borderLeftColor = "#6285AF";
+        document.getElementById("recs").style.borderLeftStyle = "solid";
+        document.getElementById("recs").style.backgroundColor = "#F0F2F5";
+        document.getElementById("recs").style.color = "#000000";
+        document.getElementById("recs").style.fontWeight = "bold";
+        document.getElementsByClassName("sub_news")[0].style.display = "none";
+        document.getElementsByClassName("news")[0].style.borderLeft = "none";
+        document.getElementsByClassName("news")[0].style.color = "#2a5885";
+        document.getElementsByClassName("news")[0].style.fontWeight = "500";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "#FFFFFF";
+        document.getElementsByClassName("sort")[0].style.display = "none";
+        document.getElementsByClassName("sort")[1].style.display = "none";
+        document.getElementsByClassName("hot")[0].style.display = "none";
+        document.getElementById("blue_line_block").style.transform = "translateY(30px)";
+        document.getElementById("blue_line_block").style.transition = "width";
+        document.getElementById("blue_line_block").style.transitionDuration = "3s";
+        document.getElementById("blue_line_block").style.transitionTimingFunction = "ease-in-out";
+        document.getElementById("publications").style.borderLeft = "none";
+        document.getElementById("publications").style.backgroundColor = "";
+        document.getElementById("publications").style.color = "";
+        document.getElementById("publications").style.fontWeight = "";
+        document.getElementById("search").style.borderLeft = "none";
+        document.getElementById("search").style.backgroundColor = "";
+        document.getElementById("search").style.color = "";
+        document.getElementById("search").style.fontWeight = "";
+        document.getElementById("updates").style.borderLeft = "none";
+        document.getElementById("updates").style.backgroundColor = "";
+        document.getElementById("updates").style.color = "";
+        document.getElementById("updates").style.fontWeight = "";
+        document.getElementById("comments").style.borderLeft = "none";
+        document.getElementById("comments").style.backgroundColor = "";
+        document.getElementById("comments").style.color = "";
+        document.getElementById("comments").style.fontWeight = "";
+
+    }
+    search(){
+        document.getElementById("search").style.borderLeftWidth = "2px";
+        document.getElementById("search").style.borderLeftColor = "#6285AF";
+        document.getElementById("search").style.borderLeftStyle = "solid";
+        document.getElementById("search").style.backgroundColor = "#F0F2F5";
+        document.getElementById("search").style.color = "#000000";
+        document.getElementById("search").style.fontWeight = "bold";
+        document.getElementsByClassName("sub_news")[0].style.display = "none";
+        document.getElementsByClassName("news")[0].style.borderLeft = "none";
+        document.getElementsByClassName("news")[0].style.color = "#2a5885";
+        document.getElementsByClassName("news")[0].style.fontWeight = "500";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "#FFFFFF";
+        document.getElementsByClassName("sort")[0].style.display = "none";
+        document.getElementsByClassName("sort")[1].style.display = "none";
+        document.getElementsByClassName("hot")[0].style.display = "none";
+        // document.getElementById("blue_line_block").style.transform = "translateY(60px)";
+        // document.getElementById("blue_line_block").style.transition = "width";
+        // document.getElementById("blue_line_block").style.transitionDuration = "3s";
+        // document.getElementById("blue_line_block").style.transitionTimingFunction = "ease-in-out";
+        document.getElementById("recs").style.borderLeft = "none";
+        document.getElementById("recs").style.backgroundColor = "";
+        document.getElementById("recs").style.color = "";
+        document.getElementById("recs").style.fontWeight = "";
+        document.getElementById("publications").style.borderLeft = "none";
+        document.getElementById("publications").style.backgroundColor = "";
+        document.getElementById("publications").style.color = "";
+        document.getElementById("publications").style.fontWeight = "";
+        document.getElementById("updates").style.borderLeft = "none";
+        document.getElementById("updates").style.backgroundColor = "";
+        document.getElementById("updates").style.color = "";
+        document.getElementById("updates").style.fontWeight = "";
+        document.getElementById("comments").style.borderLeft = "none";
+        document.getElementById("comments").style.backgroundColor = "";
+        document.getElementById("comments").style.color = "";
+        document.getElementById("comments").style.fontWeight = "";
+    }
+    publications(){
+        document.getElementById("publications").style.borderLeftWidth = "2px";
+        document.getElementById("publications").style.borderLeftColor = "#6285AF";
+        document.getElementById("publications").style.borderLeftStyle = "solid";
+        document.getElementById("publications").style.backgroundColor = "#F0F2F5";
+        document.getElementById("publications").style.color = "#000000";
+        document.getElementById("publications").style.fontWeight = "bold";
+        document.getElementsByClassName("sub_news")[0].style.display = "none";
+        document.getElementsByClassName("news")[0].style.borderLeft = "none";
+        document.getElementsByClassName("news")[0].style.color = "#2a5885";
+        document.getElementsByClassName("news")[0].style.fontWeight = "500";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "#FFFFFF";
+        document.getElementsByClassName("sort")[0].style.display = "none";
+        document.getElementsByClassName("sort")[1].style.display = "none";
+        document.getElementsByClassName("hot")[0].style.display = "none";
+        document.getElementById("recs").style.borderLeft = "none";
+        document.getElementById("recs").style.backgroundColor = "";
+        document.getElementById("recs").style.color = "";
+        document.getElementById("recs").style.fontWeight = "";
+        document.getElementById("search").style.borderLeft = "none";
+        document.getElementById("search").style.backgroundColor = "";
+        document.getElementById("search").style.color = "";
+        document.getElementById("search").style.fontWeight = "";
+        document.getElementById("updates").style.borderLeft = "none";
+        document.getElementById("updates").style.backgroundColor = "";
+        document.getElementById("updates").style.color = "";
+        document.getElementById("updates").style.fontWeight = "";
+        document.getElementById("comments").style.borderLeft = "none";
+        document.getElementById("comments").style.backgroundColor = "";
+        document.getElementById("comments").style.color = "";
+        document.getElementById("comments").style.fontWeight = "";
+    }
+    updates(){
+        document.getElementById("updates").style.borderLeftWidth = "2px";
+        document.getElementById("updates").style.borderLeftColor = "#6285AF";
+        document.getElementById("updates").style.borderLeftStyle = "solid";
+        document.getElementById("updates").style.backgroundColor = "#F0F2F5";
+        document.getElementById("updates").style.color = "#000000";
+        document.getElementById("updates").style.fontWeight = "bold";
+        document.getElementsByClassName("sub_news")[0].style.display = "none";
+        document.getElementsByClassName("news")[0].style.borderLeft = "none";
+        document.getElementsByClassName("news")[0].style.color = "#2a5885";
+        document.getElementsByClassName("news")[0].style.fontWeight = "500";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "#FFFFFF";
+        document.getElementsByClassName("sort")[0].style.display = "none";
+        document.getElementsByClassName("sort")[1].style.display = "none";
+        document.getElementsByClassName("hot")[0].style.display = "none";
+        document.getElementById("recs").style.borderLeft = "none";
+        document.getElementById("recs").style.backgroundColor = "";
+        document.getElementById("recs").style.color = "";
+        document.getElementById("recs").style.fontWeight = "";
+        document.getElementById("search").style.borderLeft = "none";
+        document.getElementById("search").style.backgroundColor = "";
+        document.getElementById("search").style.color = "";
+        document.getElementById("search").style.fontWeight = "";
+        document.getElementById("publications").style.borderLeft = "none";
+        document.getElementById("publications").style.backgroundColor = "";
+        document.getElementById("publications").style.color = "";
+        document.getElementById("publications").style.fontWeight = "";
+        document.getElementById("comments").style.borderLeft = "none";
+        document.getElementById("comments").style.backgroundColor = "";
+        document.getElementById("comments").style.color = "";
+        document.getElementById("comments").style.fontWeight = "";
+    }
+    comments(){
+        document.getElementById("comments").style.borderLeftWidth = "2px";
+        document.getElementById("comments").style.borderLeftColor = "#6285AF";
+        document.getElementById("comments").style.borderLeftStyle = "solid";
+        document.getElementById("comments").style.backgroundColor = "#F0F2F5";
+        document.getElementById("comments").style.color = "#000000";
+        document.getElementById("comments").style.fontWeight = "bold";
+        document.getElementsByClassName("sub_news")[0].style.display = "none";
+        document.getElementsByClassName("news")[0].style.borderLeft = "none";
+        document.getElementsByClassName("news")[0].style.color = "#2a5885";
+        document.getElementsByClassName("news")[0].style.fontWeight = "500";
+        document.getElementsByClassName("news")[0].style.backgroundColor = "#FFFFFF";
+        document.getElementsByClassName("sort")[0].style.display = "none";
+        document.getElementsByClassName("sort")[1].style.display = "none";
+        document.getElementsByClassName("hot")[0].style.display = "none";
+        document.getElementById("recs").style.borderLeft = "none";
+        document.getElementById("recs").style.backgroundColor = "";
+        document.getElementById("recs").style.color = "";
+        document.getElementById("recs").style.fontWeight = "";
+        document.getElementById("search").style.borderLeft = "none";
+        document.getElementById("search").style.backgroundColor = "";
+        document.getElementById("search").style.color = "";
+        document.getElementById("search").style.fontWeight = "";
+        document.getElementById("publications").style.borderLeft = "none";
+        document.getElementById("publications").style.backgroundColor = "";
+        document.getElementById("publications").style.color = "";
+        document.getElementById("publications").style.fontWeight = "";
+        document.getElementById("updates").style.borderLeft = "none";
+        document.getElementById("updates").style.backgroundColor = "";
+        document.getElementById("updates").style.color = "";
+        document.getElementById("updates").style.fontWeight = "";
+    }
   render(){
     return(
           <div className="activity_feed">
             <ul className="act_list">
-              <li className="news">Новости
+              <div id="blue_line_block"></div><li className="news" onClick={this.news}>Новости
                 <img className="sort" src="img/add.png" alt=""/>
                 <img className="sort" src="img/sort.png" alt=""/>
               </li>
               <ul className="sub_news">
-                <li>Фотографии</li>
-                <li>Видеозаписи</li>
+                <li id="photo" onClick={this.photo}>Фотографии</li>
+                <li id="video" onClick={this.video}>Видеозаписи</li>
               </ul>
-              <li >Рекомендации</li>
-              <li >Поиск</li>
-              <li >Статьи</li>
+              <li id="recs" onClick={this.recs}>Рекомендации</li>
+              <li id="search" onClick={this.search}>Поиск</li>
+              <li id="publications" onClick={this.publications}>Статьи</li>
               <div className="list_split"></div>
-              <li >Обновления</li>
-              <li className="comments">Комментарии</li>
+              <li id="updates" onClick={this.updates}>Обновления</li>
+              <li id="comments" onClick={this.comments}>Комментарии</li>
             </ul>
           </div>
     );
