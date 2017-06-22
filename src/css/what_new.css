@@ -1,0 +1,109 @@
+.whats_new, .stories, .group_message, #notifications{
+	background-color: #FFFFFF;
+	border-radius: 3px;
+	border: 3px solid #E8EAED;
+	margin-bottom: 5px;
+}
+.mus_img{
+	padding-right: 10px;
+}
+.fanta_logo_new{
+	padding: 8px 5px 10px 15px;
+	width: 38px;
+	border-radius: 18px;
+}
+.what_input{
+	padding-top: 7px;
+	vertical-align: top;
+	border: none;
+ }
+
+.whats_new div{
+	
+    display: flex;
+}
+.what_img_group{
+  padding-left: 300px;
+}
+.fanta_logo_new{
+	padding: 8px 5px 10px 15px;
+	width: 38px;
+	border-radius: 18px;
+    height: 38px;
+}
+.WhatNew_submit
+{
+   
+    background-color: steelblue;
+    color: white;
+    border-radius: 2px;
+   padding: 10px 15px;
+}
+.what_input{
+    display: inline-flex;   
+	align-items: center;
+
+ }
+ .WhatsNew_ADD {
+     display: flex;
+     flex-direction: column;
+    
+ }
+
+
+ .WhatsNew_submit{
+     background-color: ghostwhite;
+     border-top: 2px solid whitesmoke;
+     
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+    
+     
+     padding: 15px 18px;
+ }
+ .message
+ {
+     border: none;
+     width: 450px;
+     padding-bottom: 30px;
+     margin-top: 15px;
+     overflow: hidden;
+     resize: none;
+   
+     
+ }
+  .message:focus {
+        outline: none !important;
+    border:none;
+  
+}
+  
+.what_img{
+	float: right;
+	height: 21px;
+	width: 18px;
+	margin: 13px 7px 0 0;
+}
+.what_img_add{
+	
+	height: 21px;
+	width: 18px;
+	margin: 5px 7px 0 0;
+}
+.add_element{
+    margin-top: 11px;
+    color:#285473;
+}
+.down_add {
+     color:#285473;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+}
+
+
+.exit{
+    display:none!important;
+    background-color: black;
+
+}
