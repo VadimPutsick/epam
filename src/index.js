@@ -464,10 +464,14 @@ class Feedback extends React.Component{
   render(){
     return(
           <div className="feedback">
-            <img className="like_img" onClick={this.like} src="img/like.png" alt=""/>
-            <span className="feed_info">Нравится {this.state.likes}</span>
-            <img className="like_img" onClick={this.repost} src="img/repost.png" alt=""/>
-            <span className="feed_info">{this.state.repost}</span>
+            <div className="ilike">
+              <img className="like_img" onClick={this.like} src="img/like.png" alt=""/>
+              <span className="feed_info" onClick={this.like}>Нравится {this.state.likes}</span>
+            </div>
+            <div className="ilike">
+              <img className="like_img" onClick={this.repost} src="img/repost.png" alt=""/>
+              <span className="feed_info" onClick={this.repost}>{this.state.repost}</span>
+            </div>
             <span className="view_info">{this.props.views}</span>
             <img className="view_img" src="img/view.png" alt=""/>
           </div>
@@ -508,8 +512,8 @@ class GroupMessage extends React.Component{
                   <div className="drop_reply">
                       <img className="point3" src="img/3point.png" alt=""/>
                       <div className="drop_content">
-                          <a href="">Это не интересно</a>
-                          <a href="">Пожаловаться</a>
+                          <a href="" className="top">Это не интересно</a>
+                          <a href="" className="bottom">Пожаловаться</a>
                       </div>
                   </div>
                   <Post data={item.img} text={item.text}/>
