@@ -92,5 +92,18 @@
 	margin: 5px 7px 0 0;
 }
 .add_element{
-    margin-top: 9px;
+    margin-top: 11px;
+    color:#285473;
+}
+.down_add {
+     color:#285473;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+}
+
+
+.exit{
+    display:none!important;
+    background-color: black;
+
 }
