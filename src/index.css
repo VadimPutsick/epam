@@ -66,7 +66,9 @@ body {
     padding-left: 10px;
 }*/
 
-img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel, .yes, .no, .feed_info{
+img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel,
+.yes, .no, .feed_info, .friends_settings, .down, .all_friends, .online_friends,
+.friend_name, .message_to_friend{
     cursor: pointer;
 }
 /*friends online*/
@@ -171,7 +173,6 @@ img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel, .yes, .
 }
 .search_img{
 	margin: 3.5px 0 0 7px;
-	height: 20px;
 }
 .search_bar{
 	width: 230px;
@@ -187,7 +188,8 @@ img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel, .yes, .
 	border: none;
 	margin-bottom: 7px;
 	font-size: inherit;
-	top: -5px;
+	top: -3px;
+    left: 5px;
 	position: relative;
 }
 .notifications_music{
@@ -356,7 +358,7 @@ a:link{
 a:hover{
 	text-decoration: underline;
 }
-.posts{
+.posts, .friends_list{
 	width: 550px;
 	float: left;
 }
@@ -606,20 +608,32 @@ a:hover{
 .ext_items a:hover{
     background-color: #F0F2F5;
 }
+.friends-online:hover::before{
+    content:"";
+    position: absolute;
+    right: 30px;
+    top: -6px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid rgba(0,0,0,.6);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
 .friends-online:hover::after{
     content: attr(data-title);
     position: absolute;
     border-radius: 4px;
     width: 150px;
-    top: -27px;
+    top: -31px;
     right: 20px;
     z-index: 4;
     background: rgba(0,0,0,.7);
     color: #FFFFFF;
     font-size: 10pt;
     padding: 3px 10px;
-    border: 1px solid #000;
+    border: 1px solid #000000;
 }
+
 
 
 
@@ -917,4 +931,232 @@ li:hover, .news, #blue_line_block{
     /*padding-bottom: 7px;*/
     /*padding-top: 7px;*/
 
+/*}*/
+
+/*friends*/
+
+.avatar{
+    width: 80px;
+    margin: 5px 10px 5px 5px;
+}
+.friends_list{
+    background-color: #FFFFFF;
+    margin-bottom: 5px;
+    margin-top: 3px;
+    font-size: 10pt;
+}
+.friend{
+    position: relative;
+    top: -5px;
+    border-top: 2px solid #E7E8EC;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.friends_search{
+    border-bottom: 2px solid #E7E8EC !important;
+    border-top: 2px solid #E7E8EC;
+}
+.last_friend{
+    border-top: 2px solid #E7E8EC;
+    margin-top: -2px;
+    height: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.no_friends{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #939393;
+    font-size: 12pt;
+}
+.search_img_friend{
+    margin: 10px 10px 10px 20px;
+}
+.search_friend{
+    background-color: inherit;
+    color: #C4CBD5;
+    border: none;
+    font-size: inherit;
+    top: -13px;
+    margin-left: 5px;
+    position: relative;
+}
+.friends_settings{
+    color: #2a5885;
+    float: right;
+    margin: 10px 20px 10px 10px;
+}
+.friends_settings:hover{
+    color: #2a5885;
+}
+.friends_settings .down{
+    color: #2a5885;
+    margin-bottom: 2px;
+    margin-left: 5px;
+}
+.friends_header{
+    background-color: #FAFBFC;
+}
+.all_friends{
+    display: inline-block;
+    margin: 15px 10px 0 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #6387AC;
+}
+.number_of_friends, .online_friends{
+    color: #656565;
+}
+.online_friends{
+    display: inline-block;
+    margin: 15px 10px 0 10px;
+    padding-bottom: 15px;
+}
+.online_friends:hover{
+    border-bottom: 2px solid #CAD2DB;
+}
+.friend_info{
+    display: inline-block;
+    position: relative;
+    margin-left: 5px;
+    top: -15px;
+}
+.friend_name, .message_to_friend, .friend_name:hover, .message_to_friend:hover{
+    color: #2a5885;
+}
+.friend_name{
+    display: inline-block;
+    font-size: 11pt;
+    margin-bottom: 2px;
+    font-weight: 700;
+}
+.friend_status, .message_to_friend{
+    font-size: 9pt;
+    margin-bottom: 2px;
+}
+.friend_status{
+     color: #656565;
+}
+.points3{
+    float: right;
+    width: 20px;
+    height: 25px;
+    position: relative;
+    right: -20px;
+    top: -5px;
+}
+.friend_content{
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF;
+    width: 170px;
+    border-radius: 4px;
+    font-size: 10pt;
+    border: 1px solid #C5D0DB;
+    z-index: 2;
+    margin-top: 2px;
+}
+.friend_content::before {
+    content:"";
+    position: absolute;
+    right: 34px;
+    top: -5px;
+    width: 0;
+    height: 0;
+    border-bottom: 5px solid #C5D0DB;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
+.friend_content::after {
+    content:"";
+    position: absolute;
+    right: 35px;
+    top: -3px;
+    width: 0;
+    height: 0;
+    border-bottom: 5px solid #FFFFFF;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+.friend_content a, .friend_content ul li{
+    width: 100%;
+    color: #285473;
+    padding: 5px 0 5px 20px;
+    top: 30px;
+    right: 30px;
+    text-decoration: none;
+    display: block;
+}
+.friend_content a:hover, .hidden_settings li:hover{
+    background-color: #E4EAF0;
+}
+
+.drop_friend:hover .friend_content{
+    display: block;
+    position: absolute;
+    margin-top: 15px;
+    padding-right: 20px;
+    right: -30px;
+}
+.drop_friend{
+    float: right;
+    width: 230px;
+    margin: 17px 20px 0 0;
+    background-color: #FFFFFF;
+}
+.friend_split{
+    margin: 5px 0 5px 10px;
+    border-top: 2px solid #E7E8EC;
+}
+#change_list .down{
+    float: right;
+    margin: 4px 27px 0 0;
+    padding: 2.5px;
+}
+.hidden_settings{
+    display: none;
+}
+.hidden_settings li{
+    padding: 5px 0 5px 30px!important;
+    width: 94%!important;
+}
+#change_list:hover + .hidden_settings{
+    display: block;
+}
+
+
+.posts{
+    display: none;
+}
+/*borders*/
+
+
+/*.my_friends{*/
+    /*border: none;*/
+    /*padding-left: 15px;*/
+    /*padding-right: 15px;*/
+/*}*/
+/*.friends_list{*/
+    /*!*display: none;*!*/
+    /*background-color: #FFFFFF;*/
+    /*border: none;*/
+    /*border-radius: 3px;*/
+    /*border-left: 2px solid #E8EAED;*/
+    /*border-right: 2px solid #E8EAED;*/
+    /*padding-bottom: 5px;*/
+
+/*}*/
+/*.friends_header{*/
+    /*width: 105%;*/
+    /*border: 2px solid #E8EAED;*/
+    /*border-bottom: none;*/
+    /*padding-right: -2px;*/
+/*}*/
+/*.friends_search{*/
+    /*width: 105%;*/
+    /*border: 2px solid #E8EAED;*/
+    /*border-top: none;*/
+    /*border-bottom: none;*/
 /*}*/

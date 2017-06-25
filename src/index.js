@@ -164,6 +164,34 @@ var posts = [
     //     views: "9K"
     // },
 ];
+var friends = [
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Someone",
+        status: "New-York, NY",
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Not Someone",
+        status: "Texas, TX",
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Def Someone",
+        status: "Black Lodge, WA",
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Some One",
+        status: "Chicago, IL",
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Someone's friend",
+        status: "Austin, TX",
+    },
+];
+var count = 0;
 
 
 
@@ -205,7 +233,7 @@ class SearchBar extends React.Component{
     return(
        <div className="search_bar">
           <img className="search_img" src="img/search.png" alt=""/>
-          <label for="search_input"></label><input className="search_input" type="text" size="20" value="Поиск"/>
+          <label for="search_input"></label><input className="search_input" type="text" size="20" placeholder="Поиск"/>
       </div>
     );
   }
@@ -328,7 +356,7 @@ class Support extends React.Component{
                 <a href="">Разработчикам</a><br/>
                <a href="">Реклама</a>
               <div className="extended">
-                <a  href="">Еще <i className="down"></i></a>
+                <a  href="">Еще <i className="down"/></a>
               <div className="ext_items">
                 <a className="top" href="">О компании</a>
                 <a href="">Вакансии</a>
@@ -345,9 +373,25 @@ class Menu extends React.Component{
     constructor(props){
         super(props);
         this.overlay_on = this.overlay_on.bind(this);
+        this.friends = this.friends.bind(this);
+        this.posts = this.posts.bind(this);
     }
     overlay_on() {
         document.getElementById('overl').style.display = "block";
+    }
+    friends() {
+        var s = document.getElementsByClassName('friends_list');
+        for(let i = 0; i<s.length; i++){
+           s.item(i).style.display = "";
+        }
+        document.getElementsByClassName('posts')[0].style.display = "none";
+    }
+    posts(){
+        document.getElementsByClassName('posts')[0].style.display = "block";
+        var s = document.getElementsByClassName('friends_list');
+        for(let i = 0; i<s.length; i++){
+            s.item(i).style.display = "none";
+        }
     }
   render(){
     return(
@@ -365,12 +409,12 @@ class Menu extends React.Component{
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
           <img className="menu_img" src="img/messages.png" alt=""/>
-          <span className="item_name">Сообщения</span>
+          <span className="item_name" onClick={this.posts}>Сообщения</span>
         </div>
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
           <img className="menu_img" src="img/homies.png" alt=""/>
-          <span className="item_name">Друзья</span>
+          <span className="item_name" onClick={this.friends}>Друзья</span>
         </div>
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
@@ -413,13 +457,129 @@ class Menu extends React.Component{
     );
   }
 }
+class NoFriends extends React.Component{
+    render(){
+            return(
+                <div className="no_friends">
+                    <div>Ни одного друга не найдено.</div>
+                </div>
+            )
+        }
+    }
+class Friend extends React.Component{
+    render(){
+        var data = this.props.data;
+        var name = this.props.name;
+        var friendTemplate = data.map(function(item, index)
+        {
+            if(item.name == name) {
+                return(
+                    <div key={index} className="friend">
+                        <img className="avatar" src={item.avatar} alt=""/>
+                        <div className="friend_info">
+                            <a className="friend_name">{item.name}</a>
+                            <div className="friend_status">{item.status}</div>
+                            <a className="message_to_friend">Написать сообщение</a>
+                        </div>
+                        <div className="drop_friend">
+                            <img className="points3" src="img/3point.png" alt=""/>
+                            <div className="friend_content">
+                                <a href="" className="top">Просмотреть друзей</a>
+                                <a href="" className="top">Предложить друзей</a>
+                                <div className="friend_split"/>
+                                <a href="" className="top">Убрать из друзей</a>
+                                <div className="friend_split"/>
+                                <a href="" className="bottom" id="change_list">Настроить списки
+                                    <i className="down"/></a>
+                                <ul className="hidden_settings">
+                                    <li>Лучшие друзья</li>
+                                    <li>Родственники</li>
+                                    <li>Коллеги</li>
+                                    <li>Друзья по вузу</li>
+                                    <li className="bottom">Друзья по школе</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+        });
+        return(
+            <div className="friends_list">
+                {friendTemplate}
+            </div>
+        )
+    }
+}
+class Friends extends React.Component{
+    constructor(props){
+            super(props);
+            this.state = { name: this.props.data.map(function(item){
+                return item.name;})};
+            this.filterList = this.filterList.bind(this);
+        }
+        filterList(e){
+            document.getElementsByClassName("search_friend")[0].style.color = "#000000";
+            var data = this.props.data.map(function(item){
+                return item.name;
+            });
+            var filteredList = data.filter(function(item){
+                return item.toLowerCase().search(e.target.value.toLowerCase())!== -1;
+            });
+            this.setState({name: filteredList});
+            if(filteredList.length == 0){
+                var s = document.getElementsByClassName('no_friends');
+                for(let i = 0; i<s.length; i++){
+                    s.item(i).style.display = "flex";
+                }
+            }
+            else if (filteredList.length == data.length){
+                document.getElementsByClassName("search_friend")[0].style.color = "";
+                var s = document.getElementsByClassName('no_friends');
+                for(let i = 0; i<s.length; i++){
+                    s.item(i).style.display = "";
+                }
+            }
+            else{
+                var s = document.getElementsByClassName('no_friends');
+                for(let i = 0; i<s.length; i++){
+                    s.item(i).style.display = "";
+                }
+            }
+        }
+    render(){
+        return(
+            <div className="friends_list">
+                <div className="friends_header">
+                    <div className="all_friends">Все друзья
+                        <span className="number_of_friends"> {this.state.name.length}</span>
+                    </div>
+                    <div className="online_friends">Друзья онлайн</div>
+                </div>
+                <div className="friends_search">
+                    <img className="search_img_friend" src="img/search.png" alt=""/>
+                    <label for="search_input"/>
+                    <input className="search_friend" type="text" size="50"
+                           placeholder="Начните вводить имя друга" onChange={this.filterList}/>
+                    <a className="friends_settings">Параметры<i className="down"/></a>
+                </div>
+                {
+                    this.state.name.map(function(item){
+                            return <Friend key={item} name={item} data={friends}/>
+                    })
+                }
+                <NoFriends/>
+            </div>
+        )
+    }
+}
 class WhatsNew extends React.Component{
   render(){
     return(
           <div className="whats_new">
             <img className="fanta_logo_new" src="img/Fanta.jpg" alt=""/>
             <label for="what_input"></label><input
-              className="what_input" type="text" size="60" value="Что у Вас нового?"/>
+              className="what_input" type="text" size="60" placeholder="Что у Вас нового?"/>
             <img className="what_img" id="mus_img" src="img/musique.png" alt=""/>
             <img className="what_img" src="img/movies.png" alt=""/>
             <img className="what_img" src="img/photo.png" alt=""/>
@@ -883,6 +1043,7 @@ class Content extends React.Component{
     return(
           <div className="content" onClick={this.notif_off}>
             <Menu />
+            <Friends data={friends} />
             <Posts />
             <SubMenu />
             <FriendsOnline data={homies_online}/>
