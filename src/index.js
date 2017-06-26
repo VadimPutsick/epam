@@ -169,29 +169,63 @@ var friends = [
         avatar: "img/Fanta.jpg",
         name: "Someone",
         status: "New-York, NY",
+        online: "yes",
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Not Someone",
         status: "Texas, TX",
+        online: "yes",
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Def Someone",
         status: "Black Lodge, WA",
+        online: "yes",
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Some One",
         status: "Chicago, IL",
+        online: "yes",
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Someone's friend",
         status: "Austin, TX",
+        online: "yes",
+    },
+        {
+        avatar: "img/Fanta.jpg",
+        name: "Lonesome",
+        status: "New-York, NY",
+        online: "no",
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Not Lonesome",
+        status: "Texas, TX",
+        online: "no",        
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Def Lonesome",
+        status: "Black Lodge, WA",
+        online: "no",        
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Lonesome One",
+        status: "Chicago, IL",
+        online: "no",        
+    },
+    {
+        avatar: "img/Fanta.jpg",
+        name: "Lonesome's friend",
+        status: "Austin, TX",
+        online: "no",        
     },
 ];
-var count = 0;
 
 
 
@@ -511,18 +545,68 @@ class Friend extends React.Component{
         )
     }
 }
+var i = 0;
 class Friends extends React.Component{
     constructor(props){
             super(props);
-            this.state = { name: this.props.data.map(function(item){
-                return item.name;})};
+            var friends = this.props.data.filter(function(item){
+                        return (item.online == "yes")}); 
+            this.state = { 
+                name: this.props.data.map(function(item){
+                return item.name;}),
+                online: friends.map(function(item){
+                        return item.name; 
+                }),
+                all: true
+            };
             this.filterList = this.filterList.bind(this);
+            this.friends_online = this.friends_online.bind(this);
+            this.all_friends = this.all_friends.bind(this);
+            this.friends_hover = this.friends_hover.bind(this);
+            this.friends_out = this.friends_out.bind(this);
         }
+        friends_online(){
+            this.setState({all: false});
+            document.getElementsByClassName("online_friends")[0].style.borderBottom = "2px solid #6387AC";
+            document.getElementsByClassName("all_friends")[0].style.borderBottom = "none";
+            this.setState({name: this.state.online});
+        }
+        all_friends(){
+            this.setState({all: true});
+            document.getElementsByClassName("online_friends")[0].style.borderBottom = "none";
+            document.getElementsByClassName("all_friends")[0].style.borderBottom = "";
+            this.setState({name: this.props.data.map(function(item){
+                return item.name;})})
+        }
+        friends_hover(){
+            if(document.getElementsByClassName("all_friends")[0].style.borderBottom != "")
+             document.getElementsByClassName("all_friends")[0].style.borderBottom = "2px solid #CAD2DB";
+            else if(document.getElementsByClassName("online_friends")[0].style.borderBottom != "")
+             document.getElementsByClassName("online_friends")[0].style.borderBottom = "2px solid #CAD2DB";
+
+        }
+        friends_out(){
+            if(document.getElementsByClassName("all_friends")[0].style.borderBottom == "2px solid #CAD2DB")
+             document.getElementsByClassName("all_friends")[0].style.borderBottom = "none";
+            else if(document.getElementsByClassName("online_friends")[0].style.borderBottom == "2px solid #CAD2DB")
+             document.getElementsByClassName("online_friends")[0].style.borderBottom = "none";
+        }        
         filterList(e){
+            var data = [];
+            if(!this.state.all)
+            {
+                var friends = this.props.data.filter(function(item){
+                        return (item.online == "yes")}); 
+                data = friends.map(function(item){
+                    return item.name;
+                })
+            }
+            else{
+                data = this.props.data.map(function(item){
+                    return item.name;
+                })
+            }
             document.getElementsByClassName("search_friend")[0].style.color = "#000000";
-            var data = this.props.data.map(function(item){
-                return item.name;
-            });
             var filteredList = data.filter(function(item){
                 return item.toLowerCase().search(e.target.value.toLowerCase())!== -1;
             });
@@ -540,7 +624,7 @@ class Friends extends React.Component{
                     s.item(i).style.display = "";
                 }
             }
-            else{
+            else{ 
                 var s = document.getElementsByClassName('no_friends');
                 for(let i = 0; i<s.length; i++){
                     s.item(i).style.display = "";
@@ -551,10 +635,14 @@ class Friends extends React.Component{
         return(
             <div className="friends_list">
                 <div className="friends_header">
-                    <div className="all_friends">Все друзья
+                    <div className="all_friends" onClick={this.all_friends} onMouseOver={this.friends_hover} onMouseOut={this.friends_out}>
+                        Все друзья
                         <span className="number_of_friends"> {this.state.name.length}</span>
                     </div>
-                    <div className="online_friends">Друзья онлайн</div>
+                    <div className="online_friends" onClick={this.friends_online} onMouseOver={this.friends_hover} onMouseOut={this.friends_out}>
+                        Друзья онлайн
+                        <span className="number_of_friends"> {this.state.online.length}</span>
+                    </div>
                 </div>
                 <div className="friends_search">
                     <img className="search_img_friend" src="img/search.png" alt=""/>
