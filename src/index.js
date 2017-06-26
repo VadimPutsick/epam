@@ -169,61 +169,61 @@ var friends = [
         avatar: "img/Fanta.jpg",
         name: "Someone",
         status: "New-York, NY",
-        online: "yes",
+        online: true,
     },
     {
-        avatar: "img/Fanta.jpg",
+        avatar: "img/Magic_leaf.jpg",
         name: "Not Someone",
         status: "Texas, TX",
-        online: "yes",
+        online: true,
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Def Someone",
         status: "Black Lodge, WA",
-        online: "yes",
+        online: true,
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Some One",
         status: "Chicago, IL",
-        online: "yes",
+        online: true,
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Someone's friend",
         status: "Austin, TX",
-        online: "yes",
+        online: true,
     },
         {
         avatar: "img/Fanta.jpg",
         name: "Lonesome",
         status: "New-York, NY",
-        online: "no",
+        online: false,
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Not Lonesome",
         status: "Texas, TX",
-        online: "no",        
+        online: false,
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Def Lonesome",
         status: "Black Lodge, WA",
-        online: "no",        
+        online: false,
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Lonesome One",
         status: "Chicago, IL",
-        online: "no",        
+        online: false,
     },
     {
         avatar: "img/Fanta.jpg",
         name: "Lonesome's friend",
         status: "Austin, TX",
-        online: "no",        
+        online: false,
     },
 ];
 
@@ -438,12 +438,12 @@ class Menu extends React.Component{
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
           <img className="menu_img" src="img/news.png" alt=""/>
-          <span className="item_name">Новости</span>
+          <span className="item_name" onClick={this.posts}>Новости</span>
         </div>
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
           <img className="menu_img" src="img/messages.png" alt=""/>
-          <span className="item_name" onClick={this.posts}>Сообщения</span>
+          <span className="item_name">Сообщения</span>
         </div>
         <div className="menu_item">
           <img className="tool" src="img/tool.png" alt=""/>
@@ -506,36 +506,80 @@ class Friend extends React.Component{
         var name = this.props.name;
         var friendTemplate = data.map(function(item, index)
         {
-            if(item.name == name) {
-                return(
-                    <div key={index} className="friend">
-                        <img className="avatar" src={item.avatar} alt=""/>
-                        <div className="friend_info">
-                            <a className="friend_name">{item.name}</a>
-                            <div className="friend_status">{item.status}</div>
-                            <a className="message_to_friend">Написать сообщение</a>
-                        </div>
-                        <div className="drop_friend">
-                            <img className="points3" src="img/3point.png" alt=""/>
-                            <div className="friend_content">
-                                <a href="" className="top">Просмотреть друзей</a>
-                                <a href="" className="top">Предложить друзей</a>
-                                <div className="friend_split"/>
-                                <a href="" className="top">Убрать из друзей</a>
-                                <div className="friend_split"/>
-                                <a href="" className="bottom" id="change_list">Настроить списки
-                                    <i className="down"/></a>
-                                <ul className="hidden_settings">
-                                    <li>Лучшие друзья</li>
-                                    <li>Родственники</li>
-                                    <li>Коллеги</li>
-                                    <li>Друзья по вузу</li>
-                                    <li className="bottom">Друзья по школе</li>
-                                </ul>
+            if(item.name == name){
+                if(item.online) {
+                    return (
+                        <div key={index} className="friend">
+                            <img className="avatar" src={item.avatar} alt=""/>
+                            <div className="zoom_in">
+                                <div className="zoom_outer">
+                                    <img src="img/zoom_photo.png"/>
+                                </div>
+                            </div>
+                            <span id="online"/>
+                            <div className="friend_info">
+                                <a className="friend_name">{item.name}</a>
+                                <div className="friend_status">{item.status}</div>
+                                <a className="message_to_friend">Написать сообщение</a>
+                            </div>
+                            <div className="drop_friend">
+                                <img className="points3" src="img/3point.png" alt=""/>
+                                <div className="friend_content">
+                                    <a href="" className="top">Просмотреть друзей</a>
+                                    <a href="" className="top">Предложить друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href="" className="top">Убрать из друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href="" className="bottom" id="change_list">Настроить списки
+                                        <i className="down"/></a>
+                                    <ul className="hidden_settings">
+                                        <li>Лучшие друзья</li>
+                                        <li>Родственники</li>
+                                        <li>Коллеги</li>
+                                        <li>Друзья по вузу</li>
+                                        <li className="bottom">Друзья по школе</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )
+                    )
+                }
+                else{
+                    return (
+                        <div key={index} className="friend">
+                            <img className="avatar" src={item.avatar} alt=""/>
+                            <div className="zoom_in">
+                                <div className="zoom_outer">
+                                    <img src="img/zoom_photo.png"/>
+                                </div>
+                            </div>
+                            <div className="friend_info">
+                                <a className="friend_name">{item.name}</a>
+                                <div className="friend_status">{item.status}</div>
+                                <a className="message_to_friend">Написать сообщение</a>
+                            </div>
+                            <div className="drop_friend">
+                                <img className="points3" src="img/3point.png" alt=""/>
+                                <div className="friend_content">
+                                    <a href="" className="top">Просмотреть друзей</a>
+                                    <a href="" className="top">Предложить друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href="" className="top">Убрать из друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href="" className="bottom" id="change_list">Настроить списки
+                                        <i className="down"/></a>
+                                    <ul className="hidden_settings">
+                                        <li>Лучшие друзья</li>
+                                        <li>Родственники</li>
+                                        <li>Коллеги</li>
+                                        <li>Друзья по вузу</li>
+                                        <li className="bottom">Друзья по школе</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
             }
         });
         return(
@@ -545,12 +589,12 @@ class Friend extends React.Component{
         )
     }
 }
-var i = 0;
+
 class Friends extends React.Component{
     constructor(props){
             super(props);
             var friends = this.props.data.filter(function(item){
-                        return (item.online == "yes")}); 
+                        return (item.online)});
             this.state = { 
                 name: this.props.data.map(function(item){
                 return item.name;}),
@@ -567,36 +611,36 @@ class Friends extends React.Component{
         }
         friends_online(){
             this.setState({all: false});
+            document.getElementsByClassName('no_friends')[0].style.display = "";
+            document.getElementsByClassName('search_friend')[0].value = "";
             document.getElementsByClassName("online_friends")[0].style.borderBottom = "2px solid #6387AC";
-            document.getElementsByClassName("all_friends")[0].style.borderBottom = "none";
+            document.getElementsByClassName("all_friends")[0].style.borderBottom = "2px solid #FAFBFC";
             this.setState({name: this.state.online});
         }
         all_friends(){
             this.setState({all: true});
-            document.getElementsByClassName("online_friends")[0].style.borderBottom = "none";
+            document.getElementsByClassName('no_friends')[0].style.display = "";
+            document.getElementsByClassName('search_friend')[0].value = "";
+            document.getElementsByClassName("online_friends")[0].style.borderBottom = "";
             document.getElementsByClassName("all_friends")[0].style.borderBottom = "";
             this.setState({name: this.props.data.map(function(item){
                 return item.name;})})
         }
         friends_hover(){
-            if(document.getElementsByClassName("all_friends")[0].style.borderBottom != "")
+            if(!this.state.all)
              document.getElementsByClassName("all_friends")[0].style.borderBottom = "2px solid #CAD2DB";
-            else if(document.getElementsByClassName("online_friends")[0].style.borderBottom != "")
-             document.getElementsByClassName("online_friends")[0].style.borderBottom = "2px solid #CAD2DB";
 
         }
         friends_out(){
-            if(document.getElementsByClassName("all_friends")[0].style.borderBottom == "2px solid #CAD2DB")
+            if(!this.state.all)
              document.getElementsByClassName("all_friends")[0].style.borderBottom = "none";
-            else if(document.getElementsByClassName("online_friends")[0].style.borderBottom == "2px solid #CAD2DB")
-             document.getElementsByClassName("online_friends")[0].style.borderBottom = "none";
         }        
         filterList(e){
             var data = [];
             if(!this.state.all)
             {
                 var friends = this.props.data.filter(function(item){
-                        return (item.online == "yes")}); 
+                        return (item.online)});
                 data = friends.map(function(item){
                     return item.name;
                 })
@@ -635,14 +679,15 @@ class Friends extends React.Component{
         return(
             <div className="friends_list">
                 <div className="friends_header">
-                    <div className="all_friends" onClick={this.all_friends} onMouseOver={this.friends_hover} onMouseOut={this.friends_out}>
+                    <div className="all_friends" onClick={this.all_friends} onMouseOver={this.friends_hover} onMouseLeave={this.friends_out} >
                         Все друзья
                         <span className="number_of_friends"> {this.state.name.length}</span>
                     </div>
-                    <div className="online_friends" onClick={this.friends_online} onMouseOver={this.friends_hover} onMouseOut={this.friends_out}>
+                    <div className="online_friends" onClick={this.friends_online} >
                         Друзья онлайн
                         <span className="number_of_friends"> {this.state.online.length}</span>
                     </div>
+                    <div className="find_friends" >Найти друзей</div>
                 </div>
                 <div className="friends_search">
                     <img className="search_img_friend" src="img/search.png" alt=""/>

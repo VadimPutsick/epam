@@ -68,7 +68,7 @@ body {
 
 img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel,
 .yes, .no, .feed_info, .friends_settings, .down, .all_friends, .online_friends,
-.friend_name, .message_to_friend{
+.friend_name, .message_to_friend, .find_friends, .zoom_outer, .zoom_in{
     cursor: pointer;
 }
 /*friends online*/
@@ -937,7 +937,9 @@ li:hover, .news, #blue_line_block{
 
 .avatar{
     width: 80px;
-    margin: 5px 10px 5px 5px;
+    height: 80px;
+    margin: 10px 10px 5px 5px;
+    border-radius: 50%;
 }
 .friends_list{
     background-color: #FFFFFF;
@@ -1021,7 +1023,7 @@ li:hover, .news, #blue_line_block{
     display: inline-block;
     position: relative;
     margin-left: 5px;
-    top: -15px;
+    top: -20px;
 }
 .friend_name, .message_to_friend, .friend_name:hover, .message_to_friend:hover{
     color: #2a5885;
@@ -1125,11 +1127,72 @@ li:hover, .news, #blue_line_block{
 #change_list:hover + .hidden_settings{
     display: block;
 }
-
+#online{
+    display: block;
+    background-color: #89C27B;
+    border-radius: 50%;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    height: 10px;
+    width: 10px;
+    z-index: 10;
+    position: absolute;
+    left: 70px;
+    top: 70px;
+}
+.find_friends{
+    float: right;
+    color: #FFFFFF;
+    background-color: #5E81A8;
+    border: 2px solid #5E81A8;
+    width: 85px;
+    margin-right: 20px;
+    display: inline-block;
+    border-radius: 3px;
+    padding: 3px 10px 4px 15px;
+    font-size: 10pt;
+    margin-top: 10px;
+}
 
 .posts{
     display: none;
 }
+.zoom_in{
+    display: none;
+    margin: 20px 10px 5px 5px;
+    position: absolute;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    -webkit-transition: bottom 0.2s ease;
+    transition: bottom 0.2s ease ;
+}
+.zoom_outer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 40px;
+    height: 40px;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 4;
+    -webkit-transition: bottom 0.2s ease;
+    transition: bottom 0.2s ease ;
+
+}
+.zoom_outer img{
+    margin-top: 10px;
+}
+.avatar:hover+.zoom_in{
+    display: block;
+    -webkit-transform: translateY(-110px);
+    -ms-transform: translateY(-110px);
+    transform: translateY(-110px);
+    -webkit-transition: bottom 0.2s ease;
+    transition: bottom 0.2s ease ;
+}
+
 /*borders*/
 
 
