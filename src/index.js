@@ -230,19 +230,19 @@ var friends = [
 
 
 
-function timer(){
-    const obj=document.getElementById('timer_inp');
-    obj.innerHTML--;
-    if(obj.innerHTML==0){
-
-        setTimeout(function(){var s = document.getElementsByClassName("friends-online");
-            s[0].style.display = "none";},1000);
-
-    }
-    else{setTimeout(timer,1000);
-    }
-}
-setTimeout(timer,1000);
+// function timer(){
+//     const obj=document.getElementById('timer_inp');
+//     obj.innerHTML--;
+//     if(obj.innerHTML==0){
+//
+//         setTimeout(function(){var s = document.getElementsByClassName("friends-online");
+//             s[0].style.display = "none";},1000);
+//
+//     }
+//     else{setTimeout(timer,1000);
+//     }
+// }
+// setTimeout(timer,1000);
 
 
 //  function blue_line(){
@@ -500,7 +500,34 @@ class NoFriends extends React.Component{
             )
         }
     }
+function photo_on() {
+    var m = document.getElementsByClassName('friend');
+    var s = document.getElementsByClassName('big');
+    for(let i = 0; i < m.length; i++){
+        for(let j = 0; j <s.length; j++){
+            if(i == j)
+                s.item(i).style.display = "block";
+        }
+    }
+}
+
+// if ([].indexOf) {
+//     var find = function(array, value) {
+//         return array.indexOf(value);
+//     }
+// } else {
+//     var find = function(array, value) {
+//         for (var i = 0; i < array.length; i++) {
+//             if (array[i] === value) return i;
+//         }
+//         return -1;
+//     }
+// }
+
 class Friend extends React.Component{
+    constructor(props){
+        super(props);
+    }
     render(){
         var data = this.props.data;
         var name = this.props.name;
@@ -512,10 +539,11 @@ class Friend extends React.Component{
                         <div key={index} className="friend">
                             <img className="avatar" src={item.avatar} alt=""/>
                             <div className="zoom_in">
-                                <div className="zoom_outer">
+                                <div className="zoom_outer" onClick={photo_on}>
                                     <img src="img/zoom_photo.png"/>
                                 </div>
                             </div>
+                            <Big_avatar avatar={item.name} />
                             <span id="online"/>
                             <div className="friend_info">
                                 <a className="friend_name">{item.name}</a>
@@ -530,15 +558,19 @@ class Friend extends React.Component{
                                     <div className="friend_split"/>
                                     <a href="" className="top">Убрать из друзей</a>
                                     <div className="friend_split"/>
-                                    <a href="" className="bottom" id="change_list">Настроить списки
-                                        <i className="down"/></a>
-                                    <ul className="hidden_settings">
-                                        <li>Лучшие друзья</li>
-                                        <li>Родственники</li>
-                                        <li>Коллеги</li>
-                                        <li>Друзья по вузу</li>
-                                        <li className="bottom">Друзья по школе</li>
-                                    </ul>
+                                    <a href=""  id="change_list">
+                                        <div>
+                                        Настроить списки
+                                        <i className="down"/>
+                                        </div>
+                                        <ul className="hidden_settings">
+                                            <li>Лучшие друзья</li>
+                                            <li>Родственники</li>
+                                            <li>Коллеги</li>
+                                            <li>Друзья по вузу</li>
+                                            <li className="bottom">Друзья по школе</li>
+                                        </ul>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -587,6 +619,38 @@ class Friend extends React.Component{
                 {friendTemplate}
             </div>
         )
+    }
+}
+function photo_off() {
+    var s = document.getElementsByClassName('big');
+    for(let i = 0; i<s.length; i++){
+        s.item(i).style.display = "none";
+    }
+}
+class Big_avatar extends React.Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        var data = friends;
+        var name = this.props.avatar;
+        var bigTemplate = data.map(function(item, index)
+        {
+            if(item.name == name){
+                return(
+                    <div key={index} id="big_avatar" onClick={photo_off}>
+                        <div className="overlay_text">
+                            <img className="big_avatar" src={item.avatar} alt=""/>
+                        </div>
+                    </div>
+                )
+            }
+        });
+        return(
+            <div className="big" onClick={photo_off}>
+            {bigTemplate}
+            </div>
+        );
     }
 }
 
@@ -1140,26 +1204,64 @@ class SubMenu extends React.Component{
 //   }
 // }
 class FriendsOnline extends React.Component{
+    constructor(props){
+        super(props);
+        var friends = this.props.data.filter(function(item){
+            return (item.online)});
+        this.state = {data: this.props.data,
+            online: friends.map(function(item){
+                return item.name;
+            }),
+        };
+    }
   render(){
-      var data = this.props.data;
-      var friendsTemplate = data.map(function(item, index)
+      var friendsTemplate = this.state.data.map(function(item, index)
+      {
+          if(index < 3 && item.online)
+         {
+          return (
+                  <div key={index} class="img_block">
+                      <img className="friend_online" src={item.avatar} alt="Friend"/>
+                  </div>
+          )
+         }
+      });
+    var allFriendsTemplate = this.state.data.map(function(item, index)
       {
           return (
-              <div key={index} class="img_block">
-                  <img className="friend_online" src={item.avatar} alt="Friend"/>
-              </div>
+                  <div key={index} className="friend_stick">
+                      <img className="fr_online" src={item.avatar} alt="Friend"/>
+                      <div className="all_name">{item.name}</div>
+                  </div>
           )
       })
     return(
+        <div>
+          <div className="all_friends_menu">
+              <div className="all_menu">
+                  <div className="online_counter">
+                      <span>{this.state.online.length} человек онлайн</span>
+                      <img className="stick_this" src="img/stick.png" alt=""/>
+                  </div>
+                  {allFriendsTemplate}
+                  <div className="search_online">
+                      <img className="search_img_friend" src="img/search.png" alt=""/>
+                      <label for="search_input"/>
+                      <input className="search_friend" type="text" size="35" style={{color: "#828282"}}
+                             placeholder="Начните вводить имя..."/>
+                  </div>
+              </div>
+          </div>
           <div className="friends-online" data-title="Показать друзей онлайн">
               {friendsTemplate}
             <div className="counter_result">
-            <span className="amount" id="timer_inp">
-              40
+            <span className="amount">
+                {this.state.online.length}
             </span>
             <img className="online_img" src="img/homies.png"  alt="Friends"/>
             </div>
           </div>
+        </div>
     );
   }
 }
@@ -1179,7 +1281,7 @@ class Content extends React.Component{
             <Friends data={friends} />
             <Posts />
             <SubMenu />
-            <FriendsOnline data={homies_online}/>
+            <FriendsOnline data={friends}/>
           </div>
     );
   }
@@ -1239,7 +1341,7 @@ class Page extends React.Component{
               <Content />
                 <Overlay />
                 <OverlayNew />
-              <FriendsOnline data={homies_online}/>
+              <FriendsOnline data={friends}/>
           </div>  
         );
     }

@@ -68,7 +68,8 @@ body {
 
 img, .slider, li, .hot_interesting, .counter_result, .smb,  .user_panel,
 .yes, .no, .feed_info, .friends_settings, .down, .all_friends, .online_friends,
-.friend_name, .message_to_friend, .find_friends, .zoom_outer, .zoom_in{
+.friend_name, .message_to_friend, .find_friends, .zoom_outer, .zoom_in, .friends-online,
+.friend_stick{
     cursor: pointer;
 }
 /*friends online*/
@@ -720,7 +721,7 @@ input:checked + .slider:before {
     }*/
 
 /*player*/
-#overlay, #overl {
+#overlay, #overl, .big {
     position: fixed;
     display: none;
     width: 100%;
@@ -1091,10 +1092,28 @@ li:hover, .news, #blue_line_block{
     text-decoration: none;
     display: block;
 }
-.friend_content a:hover, .hidden_settings li:hover{
+.friend_content ul li{
+    padding-left: 30px;
+}
+.friend_content a:hover, .hidden_settings li:hover, .friend_content a div:hover{
     background-color: #E4EAF0;
 }
-
+.friend_content #change_list:hover{
+    background-color: #FFFFFF;
+}
+.friend_content #change_list{
+    width: 91%;
+    color: #285473;
+    padding: 5px 0 5px 0;
+    text-decoration: none;
+    display: block;
+}
+#change_list div{
+    width: 110%;
+    padding: 5px 0 5px 20px;
+    text-decoration: none;
+    display: block;
+}
 .drop_friend:hover .friend_content{
     display: block;
     position: absolute;
@@ -1104,7 +1123,7 @@ li:hover, .news, #blue_line_block{
 }
 .drop_friend{
     float: right;
-    width: 230px;
+    width: 23px;
     margin: 17px 20px 0 0;
     background-color: #FFFFFF;
 }
@@ -1117,15 +1136,19 @@ li:hover, .news, #blue_line_block{
     margin: 4px 27px 0 0;
     padding: 2.5px;
 }
+
 .hidden_settings{
     display: none;
 }
 .hidden_settings li{
-    padding: 5px 0 5px 30px!important;
-    width: 94%!important;
+    padding: 5px 0 5px 30px;
 }
-#change_list:hover + .hidden_settings{
+.hidden_settings ul:hover{
+
+}
+#change_list:hover .hidden_settings{
     display: block;
+    width: 103.5%;
 }
 #online{
     display: block;
@@ -1191,6 +1214,103 @@ li:hover, .news, #blue_line_block{
     transform: translateY(-110px);
     -webkit-transition: bottom 0.2s ease;
     transition: bottom 0.2s ease ;
+}
+#big_avatar div .big_avatar{
+    width: 400px;
+}
+.big{
+    z-index: 11;
+}
+#big_avatar{
+    width: 600px;
+    height: 400px;
+    background-color: #1E1E1E;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    cursor: pointer;
+}
+.all_friends_menu{
+    position: fixed;
+    right: 80px;
+    height: 300px;
+    width: 280px;
+    overflow: hidden;
+    bottom: 40px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    border-left: 2px solid #C5D0DB;
+    border-right: 2px solid #C5D0DB;
+}
+.all_name{
+    display: inline-block;
+    position: relative;
+    color: #42648B;
+    font-weight: 700;
+    font-size: 10pt;
+    padding: 10px;
+    top: -15px;
+}
+.online_counter{
+    padding: 10px 10px;
+    border-radius: 5px 5px 0 0;
+    border-top: 2px solid #C5D0DB;
+    border-left: 2px solid #C5D0DB;
+    border-right: 2px solid #C5D0DB;
+    background-color: #507299;
+    right: 80px;
+    z-index: 3;
+    position: fixed;
+    bottom: 340px;
+}
+.online_counter span{
+    font-size: 9pt;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+.stick_this{
+    float: right;
+    width: 12px;
+}
+.all_menu{
+    width: 100%;
+    height: 100%;
+    padding: 0 20px 0 0;
+    overflow: auto;
+}
+.all_menu .online_counter{
+    width: 260px;
+}
+
+.friend_stick{
+    height: 50px!important;
+    width: 101%;
+    padding: 0 8px;
+}
+.search_online{
+    position: fixed;
+    bottom: 0;
+    right: 80px;
+    height: 40px;
+    background-color: #FFFFFF;
+    width: 280px;
+    border-radius: 0 0 5px 5px;
+    border: 2px solid #C5D0DB;
+    border-top-color: #DBE4EC;
+}
+.friend_stick:hover{
+    background-color: #F0F2F5;
+}
+.fr_online{
+    margin-top: 5px;
+    padding: 3px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
 }
 
 /*borders*/
