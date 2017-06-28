@@ -1203,16 +1203,224 @@ class SubMenu extends React.Component{
 //     );
 //   }
 // }
+class FriendOnline extends React.Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        var data = this.props.data;
+        var name = this.props.name;
+        var allFriendsTemplate = data.map(function(item, index)
+        { 
+          if(item.name == name){
+            if(item.online){
+                return (
+                    <div key={index} className="friend_stick">
+                        <img className="fr_online" src={item.avatar} alt="Friend"/>
+                        <span className="he_is_online"/>
+                        <div className="all_name">{item.name}</div>
+                    </div>
+            )
+            }
+            else {
+                return (
+                    <div key={index} className="friend_stick">
+                        <img className="fr_online" src={item.avatar} alt="Friend"/>
+                        <span className="he_is_offline"/>
+                        <div className="all_name">{item.name}</div>
+                    </div>
+            )
+            }
+          }
+        })
+        var friendTemplate = data.map(function(item, index)
+        {
+            if(item.name == name){
+                if(item.online) {
+                    return (
+                        <div key={index} className="friend">
+                            <img className="avatar" src={item.avatar} alt=""/>
+                            <div className="zoom_in">
+                                <div className="zoom_outer" onClick={photo_on}>
+                                    <img src="img/zoom_photo.png"/>
+                                </div>
+                            </div>
+                            <Big_avatar avatar={item.name} />
+                            <span id="online"/>
+                            <div className="friend_info">
+                                <a className="friend_name">{item.name}</a>
+                                <div className="friend_status">{item.status}</div>
+                                <a className="message_to_friend">Написать сообщение</a>
+                            </div>
+                            <div className="drop_friend">
+                                <img className="points3" src="img/3point.png" alt=""/>
+                                <div className="friend_content">
+                                    <a href="" className="top">Просмотреть друзей</a>
+                                    <a href="" className="top">Предложить друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href="" className="top">Убрать из друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href=""  id="change_list">
+                                        <div>
+                                        Настроить списки
+                                        <i className="down"/>
+                                        </div>
+                                        <ul className="hidden_settings">
+                                            <li>Лучшие друзья</li>
+                                            <li>Родственники</li>
+                                            <li>Коллеги</li>
+                                            <li>Друзья по вузу</li>
+                                            <li className="bottom">Друзья по школе</li>
+                                        </ul>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+                else{
+                    return (
+                        <div key={index} className="friend">
+                            <img className="avatar" src={item.avatar} alt=""/>
+                            <div className="zoom_in">
+                                <div className="zoom_outer">
+                                    <img src="img/zoom_photo.png"/>
+                                </div>
+                            </div>
+                            <div className="friend_info">
+                                <a className="friend_name">{item.name}</a>
+                                <div className="friend_status">{item.status}</div>
+                                <a className="message_to_friend">Написать сообщение</a>
+                            </div>
+                            <div className="drop_friend">
+                                <img className="points3" src="img/3point.png" alt=""/>
+                                <div className="friend_content">
+                                    <a href="" className="top">Просмотреть друзей</a>
+                                    <a href="" className="top">Предложить друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href="" className="top">Убрать из друзей</a>
+                                    <div className="friend_split"/>
+                                    <a href="" className="bottom" id="change_list">Настроить списки
+                                        <i className="down"/></a>
+                                    <ul className="hidden_settings">
+                                        <li>Лучшие друзья</li>
+                                        <li>Родственники</li>
+                                        <li>Коллеги</li>
+                                        <li>Друзья по вузу</li>
+                                        <li className="bottom">Друзья по школе</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+            }
+        });
+        return(
+            <div className="my_online_friends">
+                {allFriendsTemplate}
+            </div>
+        )
+    }
+}
+class NoNewFriends extends React.Component{
+    render(){
+        return(
+            <div className="no_new_friends">
+                <div>Не найдено друзей с таким именем.</div>
+            </div>
+        )
+    }
+}
 class FriendsOnline extends React.Component{
     constructor(props){
         super(props);
         var friends = this.props.data.filter(function(item){
             return (item.online)});
-        this.state = {data: this.props.data,
+        this.state = {name: this.props.data.map(function(item){
+                return item.name;}),
             online: friends.map(function(item){
                 return item.name;
             }),
+            show_all: true,
+            data: this.props.data,
+            show: false,
         };
+        this.online_click = this.online_click.bind(this);
+        this.filterList = this.filterList.bind(this);
+        this.close_frineds = this.close_frineds.bind(this);
+        this.show_all_friends_menu = this.show_all_friends_menu.bind(this);
+    }
+    online_click(){
+        var s = document.getElementsByClassName('no_new_friends');
+        for(let i = 0; i<s.length; i++){
+            s.item(i).style.display = "";
+        }
+        document.getElementsByClassName('search_friend')[1].value = "";
+        if(this.state.show_all){
+            document.getElementsByClassName('indicator')[0].style.backgroundColor = "#8AC176";
+            this.setState({show_all: false});
+            this.setState({name: this.state.online});
+        }
+        else{
+            document.getElementsByClassName('indicator')[0].style.backgroundColor = "";
+            this.setState({show_all: true});
+            this.setState({name: this.props.data.map(function(item){
+                return item.name;})});
+        }
+
+    }
+    show_all_friends_menu(){
+        document.getElementsByClassName('search_friend')[1].value = "";
+        if(this.state.show){
+            this.setState({show:false});
+            var k = document.getElementsByClassName('all_friends_menu');
+            for(let i = 0; i < k.length; i++)
+                k.item(i).style.visibility = "visible";             
+
+        }
+        else{
+            this.setState({show:true});
+            var k = document.getElementsByClassName('all_friends_menu');
+            for(let i = 0; i < k.length; i++)
+                k.item(i).style.visibility = "";             
+        }
+    }
+    close_frineds(){
+        this.setState({show:false});
+        var k = document.getElementsByClassName('all_friends_menu');
+        for(let i = 0; i < k.length; i++)
+            k.item(i).style.visibility = "";             
+    }
+    filterList(e){
+        var data = [];
+            data = this.props.data.map(function(item){
+                return item.name;
+            })
+        document.getElementsByClassName("search_friend")[0].style.color = "#000000";
+        var filteredList = data.filter(function(item){
+            return item.toLowerCase().search(e.target.value.toLowerCase())!== -1;
+        });
+        this.setState({name: filteredList});
+        if(filteredList.length == 0){
+            var s = document.getElementsByClassName('no_new_friends');
+            for(let i = 0; i<s.length; i++){
+                s.item(i).style.display = "flex";
+            }
+        }
+        else if (filteredList.length == data.length){
+            document.getElementsByClassName("search_friend")[0].style.color = "";
+            var s = document.getElementsByClassName('no_new_friends');
+            for(let i = 0; i<s.length; i++){
+                s.item(i).style.display = "";
+            }
+        }
+        else{ 
+            var s = document.getElementsByClassName('no_new_friends');
+            for(let i = 0; i<s.length; i++){
+                s.item(i).style.display = "";
+            }
+        }
     }
   render(){
       var friendsTemplate = this.state.data.map(function(item, index)
@@ -1220,39 +1428,40 @@ class FriendsOnline extends React.Component{
           if(index < 3 && item.online)
          {
           return (
-                  <div key={index} class="img_block">
-                      <img className="friend_online" src={item.avatar} alt="Friend"/>
-                  </div>
+                <div key={index} class="img_block">
+                    <img className="friend_online" src={item.avatar} alt="Friend"/>
+                </div>
           )
          }
       });
-    var allFriendsTemplate = this.state.data.map(function(item, index)
-      {
-          return (
-                  <div key={index} className="friend_stick">
-                      <img className="fr_online" src={item.avatar} alt="Friend"/>
-                      <div className="all_name">{item.name}</div>
-                  </div>
-          )
-      })
+
     return(
         <div>
           <div className="all_friends_menu">
               <div className="all_menu">
                   <div className="online_counter">
                       <span>{this.state.online.length} человек онлайн</span>
+                      <img className="stick_this" src="img/close.png" alt="" onClick={this.close_frineds}/>
                       <img className="stick_this" src="img/stick.png" alt=""/>
                   </div>
-                  {allFriendsTemplate}
+                  <div className="my_online_friends">
+                  {
+                    this.state.name.map(function(item){
+                        return <FriendOnline key={item} name={item} data={friends}/>
+                    })
+                  }
+                  </div>
+                  <NoNewFriends />
                   <div className="search_online">
                       <img className="search_img_friend" src="img/search.png" alt=""/>
                       <label for="search_input"/>
                       <input className="search_friend" type="text" size="35" style={{color: "#828282"}}
-                             placeholder="Начните вводить имя..."/>
+                             placeholder="Начните вводить имя..." onChange={this.filterList}/>
+                      <span className="indicator" onClick={this.online_click}/>
                   </div>
               </div>
           </div>
-          <div className="friends-online" data-title="Показать друзей онлайн">
+          <div className="friends-online" data-title="Показать друзей онлайн" onClick={this.show_all_friends_menu}>
               {friendsTemplate}
             <div className="counter_result">
             <span className="amount">
