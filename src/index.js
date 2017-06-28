@@ -698,7 +698,8 @@ class Friends extends React.Component{
         friends_out(){
             if(!this.state.all)
              document.getElementsByClassName("all_friends")[0].style.borderBottom = "none";
-        }        
+        }
+
         filterList(e){
             var data = [];
             if(!this.state.all)
@@ -716,7 +717,10 @@ class Friends extends React.Component{
             }
             document.getElementsByClassName("search_friend")[0].style.color = "#000000";
             var filteredList = data.filter(function(item){
-                return item.toLowerCase().search(e.target.value.toLowerCase())!== -1;
+                try{
+                    return item.toLowerCase().search(e.target.value.toLowerCase())!== -1;
+                }
+                catch(err){}
             });
             this.setState({name: filteredList});
             if(filteredList.length == 0){
@@ -753,7 +757,7 @@ class Friends extends React.Component{
                     </div>
                     <div className="find_friends" >Найти друзей</div>
                 </div>
-                <div className="friends_search">
+                <div className="friends_search" >
                     <img className="search_img_friend" src="img/search.png" alt=""/>
                     <label for="search_input"/>
                     <input className="search_friend" type="text" size="50"
@@ -1232,89 +1236,6 @@ class FriendOnline extends React.Component{
             )
             }
           }
-        })
-        var friendTemplate = data.map(function(item, index)
-        {
-            if(item.name == name){
-                if(item.online) {
-                    return (
-                        <div key={index} className="friend">
-                            <img className="avatar" src={item.avatar} alt=""/>
-                            <div className="zoom_in">
-                                <div className="zoom_outer" onClick={photo_on}>
-                                    <img src="img/zoom_photo.png"/>
-                                </div>
-                            </div>
-                            <Big_avatar avatar={item.name} />
-                            <span id="online"/>
-                            <div className="friend_info">
-                                <a className="friend_name">{item.name}</a>
-                                <div className="friend_status">{item.status}</div>
-                                <a className="message_to_friend">Написать сообщение</a>
-                            </div>
-                            <div className="drop_friend">
-                                <img className="points3" src="img/3point.png" alt=""/>
-                                <div className="friend_content">
-                                    <a href="" className="top">Просмотреть друзей</a>
-                                    <a href="" className="top">Предложить друзей</a>
-                                    <div className="friend_split"/>
-                                    <a href="" className="top">Убрать из друзей</a>
-                                    <div className="friend_split"/>
-                                    <a href=""  id="change_list">
-                                        <div>
-                                        Настроить списки
-                                        <i className="down"/>
-                                        </div>
-                                        <ul className="hidden_settings">
-                                            <li>Лучшие друзья</li>
-                                            <li>Родственники</li>
-                                            <li>Коллеги</li>
-                                            <li>Друзья по вузу</li>
-                                            <li className="bottom">Друзья по школе</li>
-                                        </ul>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
-                else{
-                    return (
-                        <div key={index} className="friend">
-                            <img className="avatar" src={item.avatar} alt=""/>
-                            <div className="zoom_in">
-                                <div className="zoom_outer">
-                                    <img src="img/zoom_photo.png"/>
-                                </div>
-                            </div>
-                            <div className="friend_info">
-                                <a className="friend_name">{item.name}</a>
-                                <div className="friend_status">{item.status}</div>
-                                <a className="message_to_friend">Написать сообщение</a>
-                            </div>
-                            <div className="drop_friend">
-                                <img className="points3" src="img/3point.png" alt=""/>
-                                <div className="friend_content">
-                                    <a href="" className="top">Просмотреть друзей</a>
-                                    <a href="" className="top">Предложить друзей</a>
-                                    <div className="friend_split"/>
-                                    <a href="" className="top">Убрать из друзей</a>
-                                    <div className="friend_split"/>
-                                    <a href="" className="bottom" id="change_list">Настроить списки
-                                        <i className="down"/></a>
-                                    <ul className="hidden_settings">
-                                        <li>Лучшие друзья</li>
-                                        <li>Родственники</li>
-                                        <li>Коллеги</li>
-                                        <li>Друзья по вузу</li>
-                                        <li className="bottom">Друзья по школе</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
-            }
         });
         return(
             <div className="my_online_friends">
@@ -1332,6 +1253,7 @@ class NoNewFriends extends React.Component{
         )
     }
 }
+
 class FriendsOnline extends React.Component{
     constructor(props){
         super(props);
@@ -1345,11 +1267,13 @@ class FriendsOnline extends React.Component{
             show_all: true,
             data: this.props.data,
             show: false,
+            scroll: false,
         };
         this.online_click = this.online_click.bind(this);
         this.filterList = this.filterList.bind(this);
         this.close_frineds = this.close_frineds.bind(this);
         this.show_all_friends_menu = this.show_all_friends_menu.bind(this);
+        this.scroll = this.scroll.bind(this);
     }
     online_click(){
         var s = document.getElementsByClassName('no_new_friends');
@@ -1372,6 +1296,7 @@ class FriendsOnline extends React.Component{
     }
     show_all_friends_menu(){
         document.getElementsByClassName('search_friend')[1].value = "";
+        document.getElementById('scroll').style.transition = "";
         if(this.state.show){
             this.setState({show:false});
             var k = document.getElementsByClassName('all_friends_menu');
@@ -1388,18 +1313,36 @@ class FriendsOnline extends React.Component{
     }
     close_frineds(){
         this.setState({show:false});
+        document.getElementById('scroll').style.transition = "";
         var k = document.getElementsByClassName('all_friends_menu');
         for(let i = 0; i < k.length; i++)
             k.item(i).style.visibility = "";             
     }
+    scroll(){
+        var scrolled = document.getElementsByClassName('all_friends_menu')[0].pageYOffset || document.getElementsByClassName('all_friends_menu')[0].scrollTop;
+        var scrolle = document.getElementsByClassName('all_friends_menu')[0].pageYOffset || document.getElementsByClassName('all_friends_menu')[0].scrollHeight;
+
+        document.getElementById('scroll').style.transition = "3s ease";
+        if(!this.state.scroll){
+            document.getElementById('scroll').style.bottom = scrolled+50 + 'px';
+            this.setState({scroll: true});
+        }
+        else if(this.state.scroll){
+            document.getElementById('scroll').style.bottom = scrolle-25 + 'px';
+            this.setState({scroll: false});
+        }
+
+    }
     filterList(e){
-        var data = [];
-            data = this.props.data.map(function(item){
+        var data = this.props.data.map(function(item){
                 return item.name;
             })
         document.getElementsByClassName("search_friend")[0].style.color = "#000000";
         var filteredList = data.filter(function(item){
+        try{
             return item.toLowerCase().search(e.target.value.toLowerCase())!== -1;
+        }
+        catch(err){}
         });
         this.setState({name: filteredList});
         if(filteredList.length == 0){
@@ -1436,7 +1379,7 @@ class FriendsOnline extends React.Component{
       });
 
     return(
-        <div>
+        <div onScroll={this.scroll} id="fr_online_menu">
           <div className="all_friends_menu">
               <div className="all_menu">
                   <div className="online_counter">
@@ -1444,13 +1387,14 @@ class FriendsOnline extends React.Component{
                       <img className="stick_this" src="img/close.png" alt="" onClick={this.close_frineds}/>
                       <img className="stick_this" src="img/stick.png" alt=""/>
                   </div>
-                  <div className="my_online_friends">
+                  <div className="my_online_friends" >
                   {
                     this.state.name.map(function(item){
                         return <FriendOnline key={item} name={item} data={friends}/>
                     })
                   }
                   </div>
+                  <span id="scroll"/>
                   <NoNewFriends />
                   <div className="search_online">
                       <img className="search_img_friend" src="img/search.png" alt=""/>

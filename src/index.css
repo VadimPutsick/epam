@@ -958,6 +958,9 @@ li:hover, .news, #blue_line_block{
 .friends_search{
     border-bottom: 2px solid #E7E8EC !important;
     border-top: 2px solid #E7E8EC;
+    background-color: #FFFFFF;
+    position: sticky!important;
+    z-index: 20;
 }
 .last_friend{
     border-top: 2px solid #E7E8EC;
@@ -1371,6 +1374,19 @@ li:hover, .news, #blue_line_block{
     padding-bottom: 45%;
     color: #939393;
     font-size: 11pt;
+}
+#scroll{
+    border-radius: 20px;
+    height: 60px;
+    width: 10px;
+    background-color: rgba(0,0,0,0.1);
+    display: block;
+    position: fixed;
+    right: 86px;
+    bottom: 270px;
+}
+.all_friends_menu:hover #scroll{
+    background-color: rgba(0,0,0,0.3);
 }
 
 /*borders*/
