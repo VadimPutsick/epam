@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
 // class Square extends React.Component {
 //   render() {
 //     return (
@@ -263,11 +262,22 @@ class Logo extends React.Component{
   }
 }
 class SearchBar extends React.Component{
+      constructor(props){
+        super(props);
+        this.open_on_key = this.open_on_key.bind(this);
+    }
+    open_on_key(e){
+    if(e.keyCode == '17' || e.keyCode == '191'){
+        var k = document.getElementsByClassName('all_friends_menu');
+            for(let i = 0; i < k.length; i++)
+                k.item(i).style.visibility = "visible";             
+        }
+    } 
   render(){
     return(
        <div className="search_bar">
           <img className="search_img" src="img/search.png" alt=""/>
-          <label for="search_input"></label><input className="search_input" type="text" size="20" placeholder="Поиск"/>
+          <label for="search_input"></label><input className="search_input" type="text" size="20" placeholder="Поиск" onKeyDown={this.open_on_key}/>
       </div>
     );
   }
@@ -1274,6 +1284,8 @@ class FriendsOnline extends React.Component{
         this.close_frineds = this.close_frineds.bind(this);
         this.show_all_friends_menu = this.show_all_friends_menu.bind(this);
         this.scroll = this.scroll.bind(this);
+        this.drag = this.drag.bind(this);
+
     }
     online_click(){
         var s = document.getElementsByClassName('no_new_friends');
@@ -1311,6 +1323,7 @@ class FriendsOnline extends React.Component{
                 k.item(i).style.visibility = "";             
         }
     }
+
     close_frineds(){
         this.setState({show:false});
         document.getElementById('scroll').style.transition = "";
@@ -1319,19 +1332,21 @@ class FriendsOnline extends React.Component{
             k.item(i).style.visibility = "";             
     }
     scroll(){
-        var scrolled = document.getElementsByClassName('all_friends_menu')[0].pageYOffset || document.getElementsByClassName('all_friends_menu')[0].scrollTop;
-        var scrolle = document.getElementsByClassName('all_friends_menu')[0].pageYOffset || document.getElementsByClassName('all_friends_menu')[0].scrollHeight;
+        var scrolled =  document.getElementsByClassName('all_friends_menu')[0].scrollTop;
+        var scrolle = document.getElementsByClassName('all_friends_menu')[0].scrollHeight;
 
-        document.getElementById('scroll').style.transition = "3s ease";
+        document.getElementById('scroll').style.transition = "2s ease";
         if(!this.state.scroll){
-            document.getElementById('scroll').style.bottom = scrolled+50 + 'px';
+            document.getElementById('scroll').style.bottom = scrolled + 50 + 'px';
             this.setState({scroll: true});
         }
         else if(this.state.scroll){
-            document.getElementById('scroll').style.bottom = scrolle-25 + 'px';
+            document.getElementById('scroll').style.bottom = scrolle - 25 + 'px';
             this.setState({scroll: false});
         }
-
+    }
+    drag(ev) {
+    ev.dataTransfer.setData("draggable", ev.target.id);
     }
     filterList(e){
         var data = this.props.data.map(function(item){
@@ -1379,10 +1394,10 @@ class FriendsOnline extends React.Component{
       });
 
     return(
-        <div onScroll={this.scroll} id="fr_online_menu">
+        <div onScroll={this.scroll} id="fr_online_menu" >
           <div className="all_friends_menu">
-              <div className="all_menu">
-                  <div className="online_counter">
+              <div className="all_menu" draggable="true" onDragStart={this.drag}>
+                  <div className="online_counter"  id="draggable" draggable="true" onDragStart={this.drag}>
                       <span>{this.state.online.length} человек онлайн</span>
                       <img className="stick_this" src="img/close.png" alt="" onClick={this.close_frineds}/>
                       <img className="stick_this" src="img/stick.png" alt=""/>
@@ -1405,7 +1420,7 @@ class FriendsOnline extends React.Component{
                   </div>
               </div>
           </div>
-          <div className="friends-online" data-title="Показать друзей онлайн" onClick={this.show_all_friends_menu}>
+          <div className="friends-online" data-title="Показать друзей онлайн" onClick={this.show_all_friends_menu} >
               {friendsTemplate}
             <div className="counter_result">
             <span className="amount">
@@ -1485,11 +1500,38 @@ class OverlayNew extends React.Component{
         );
     }
 }
+function main_focus(){
+    document.getElementById('drag').focus;
+}
+
 OverlayNew.defaultProps = {playlist: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/293221837&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"};
 class Page extends React.Component{
+    constructor(props){
+        super(props);
+        this.allowDrop = this.allowDrop.bind(this);
+        this.drop = this.drop.bind(this);
+        this.open_on_key = this.open_on_key.bind(this);
+    }
+    allowDrop(ev) {
+    ev.preventDefault();
+    }
+    drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("drag");
+    document.getElementById('drag').appendChild(document.getElementById('draggable'));
+    document.getElementById('draggable').style.position = "static";
+    document.getElementById('draggable').style.width = "280px";
+    }
+    open_on_key(e){
+    if(e.keyCode == '17' || e.keyCode == '191'){
+        var k = document.getElementsByClassName('all_friends_menu');
+            for(let i = 0; i < k.length; i++)
+                k.item(i).style.visibility = "visible";             
+        }
+    } 
     render(){
         return(
-            <div className="page">
+            <div id="drag" tabIndex="0" className="page" onDrop={this.drop} onDragOver={this.allowDrop} onKeyDown={this.open_on_key}>
               <HeaderContent />
               <Content />
                 <Overlay />
@@ -1514,6 +1556,6 @@ class Page extends React.Component{
 // );
 
 ReactDOM.render(
-  <Page data-tip="Показать друзей онлайн"/>,
+  <Page data-tip="Показать друзей онлайн (Tab+Ctrl)"/>,
   document.getElementById('root')
 );
