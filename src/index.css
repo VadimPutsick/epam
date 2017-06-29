@@ -624,7 +624,7 @@ a:hover{
     content: attr(data-title);
     position: absolute;
     border-radius: 4px;
-    width: 150px;
+    width: 208px;
     top: -31px;
     right: 20px;
     z-index: 4;
