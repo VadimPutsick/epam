@@ -959,7 +959,7 @@ li:hover, .news, #blue_line_block{
     border-bottom: 2px solid #E7E8EC !important;
     border-top: 2px solid #E7E8EC;
     background-color: #FFFFFF;
-    position: sticky!important;
+    /*position: sticky!important;*/
     z-index: 20;
 }
 .last_friend{
@@ -1181,39 +1181,35 @@ li:hover, .news, #blue_line_block{
     display: none;
 }
 .zoom_in{
-    display: none;
+    display: block;
     margin: 20px 10px 5px 5px;
     position: absolute;
     border-radius: 50%;
     width: 80px;
     height: 80px;
+    top: -10px;
     overflow: hidden;
-    -webkit-transition: bottom 0.2s ease;
-    transition: bottom 0.2s ease ;
+    z-index: 5;
 }
 .zoom_outer{
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    top: 40px;
+    top: 80px;
     height: 40px;
     background-color: rgba(0,0,0,0.4);
     z-index: 4;
-    -webkit-transition: bottom 0.2s ease;
-    transition: bottom 0.2s ease ;
-
 }
 .zoom_outer img{
     margin-top: 10px;
 }
-.avatar:hover+.zoom_in{
-    display: block;
-    -webkit-transform: translateY(-110px);
-    -ms-transform: translateY(-110px);
-    transform: translateY(-110px);
-    -webkit-transition: bottom 0.2s ease;
-    transition: bottom 0.2s ease ;
+.zoom_in:hover .zoom_outer{
+    -webkit-transform: translateY(-35px);
+    -ms-transform: translateY(-35px);
+    transform: translateY(-35px);
+    -webkit-transition: .5s ease-out;
+    transition: .5s ease-out ;
 }
 #big_avatar div .big_avatar{
     width: 400px;
